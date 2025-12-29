@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shaker Sort</title>
+    <link rel="icon" type="image/svg+xml" href="../../../img/logo2x2.svg" />
+    <link rel="stylesheet" href="../../../style.css">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="nav-left">
+                <a href="../../../index.html">Edgar's useless web</a>
+            </div>
+            <div class="nav-center">
+                <img src="../../../img/logo2x2.svg" alt="Logo" class="logo-img">
+            </div>
+            <div class="nav-links">
+                <a href="../../../projects.html">Projects</a>
+                <a href="../../../journal.html">Journal</a>
+                <a href="../../../resume.html">Resumé</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="visualization-container">
+            <h1>Shaker Sort</h1>
+            <p class="description">Also known as Cocktail Sort. It's a variation of Bubble Sort that sorts in both
+                directions on each pass through the list.</p>
+
+            <div class="stats-panel">
+                <span>Time: <strong>O(n²)</strong></span>
+                <span>Space: <strong>O(1)</strong></span>
+            </div>
+
+            <div id="bars-container"></div>
+
+            <div class="controls">
+                <button id="start-btn">Start Sorting</button>
+                <button id="reset-btn">Reset</button>
+            </div>
+        </section>
+
+        <section class="code-container">
+            <pre><code class="language-javascript">
+function shakerSort(arr) {
+    let swapped = true;
+    let start = 0;
+    let end = arr.length;
+
+    while (swapped) {
+        swapped = false;
+
+        // Forward pass
+        for (let i = start; i &lt; end - 1; ++i) {
+            if (arr[i] > arr[i + 1]) {
+                [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]];
+                swapped = true;
+            }
+        }
+
+        if (!swapped) break;
+        swapped = false;
+        end--;
+
+        // Backward pass
+        for (let i = end - 1; i >= start; i--) {
+            if (arr[i] > arr[i + 1]) {
+                [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]];
+                swapped = true;
+            }
+        }
+        start++;
+    }
+    return arr;
+}
+            </code></pre>
+        </section>
+
+        <section class="theory-container">
+            <div class="theory-content">
+                <h2>How it Works</h2>
+                <p>
+                    Shaker Sort (or Cocktail Shaker Sort) extends Bubble Sort by operating in two directions. While
+                    Bubble Sort bubbles items up to the end of the list, Shaker Sort bubbles items up to the end and
+                    then bubbles items down to the beginning.
+                </p>
+                <p>
+                    <strong>The Algorithm:</strong><br>
+                    * <strong>Forward Pass:</strong> Iterate from left to right, swapping adjacent elements if they are
+                    in the wrong order. The largest element bubbles to the end.<br>
+                    * <strong>Backward Pass:</strong> Iterate from right to left, swapping adjacent elements if they are
+                    in the wrong order. The smallest element bubbles to the beginning.<br>
+                    * Repeat until no swaps are needed.
+                </p>
+                <p>
+                    <strong>Mathematical Analysis:</strong><br>
+                    Like Bubble Sort, its average and worst-case complexity is <code>O(n²)</code>. However, it can be
+                    slightly faster than Bubble Sort for "turtles" (small values near the end of the list) because they
+                    move to the beginning much faster.
+                </p>
+            </div>
+
+            <div class="complexity-grid">
+                <div class="complexity-item">
+                    <h3>Speed (Time Complexity)</h3>
+                    <p><strong>O(n²)</strong><br>Quadratic time complexity. Slightly better performance than Bubble Sort
+                        in practice.</p>
+                </div>
+                <div class="complexity-item">
+                    <h3>Memory (Space Complexity)</h3>
+                    <p><strong>O(1)</strong><br>In-place sorting algorithm.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>developed by Edgar.</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script type="module" src="./script.js"></script>
+</body>
+
+</html>

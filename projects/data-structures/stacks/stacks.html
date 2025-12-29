@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stacks - Data Structures</title>
+    <link rel="icon" type="image/svg+xml" href="../../../img/logo2x2.svg" />
+    <link rel="stylesheet" href="../../../style.css">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="nav-left">
+                <a href="../../../index.html">Edgar's useless web</a>
+            </div>
+            <div class="nav-center">
+                <img src="../../../img/logo2x2.svg" alt="Logo" class="logo-img">
+            </div>
+            <div class="nav-links">
+                <a href="../../../projects.html">Projects</a>
+                <a href="../../../journal.html">Journal</a>
+                <a href="../../../resume.html">Resumé</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="visualization-container">
+            <h1>Stacks</h1>
+            <p class="description">A linear data structure which follows a particular order in which the operations are
+                performed. The order is <strong>LIFO</strong> (Last In First Out).</p>
+
+            <div class="stats-panel">
+                <span>Push: <strong>O(1)</strong></span>
+                <span>Pop: <strong>O(1)</strong></span>
+                <span>Peek: <strong>O(1)</strong></span>
+            </div>
+
+            <div id="stack-container">
+                <!-- Stack elements will be injected here -->
+            </div>
+
+            <div class="controls">
+                <button id="start-btn">Start Demo</button>
+                <button id="reset-btn" class="secondary">Reset</button>
+            </div>
+            <div id="message-box" class="message-box">Ready to start.</div>
+        </section>
+
+        <section class="code-container">
+            <pre><code class="language-javascript">
+class Stack {
+    constructor() {
+        this.items = [];
+    }
+
+    // Push: O(1)
+    push(element) {
+        this.items.push(element);
+    }
+
+    // Pop: O(1)
+    pop() {
+        if (this.isEmpty()) return "Underflow";
+        return this.items.pop();
+    }
+
+    // Peek: O(1)
+    peek() {
+        if (this.isEmpty()) return "No elements";
+        return this.items[this.items.length - 1];
+    }
+
+    isEmpty() {
+        return this.items.length === 0;
+    }
+}
+            </code></pre>
+        </section>
+
+        <section class="theory-container">
+            <div class="theory-content">
+                <h2>How it Works</h2>
+                <p>
+                    Think of a <strong>Stack</strong> like a stack of plates. You can only add a new plate to the top
+                    (<strong>Push</strong>) and remove a plate from the top (<strong>Pop</strong>).
+                </p>
+                <p>
+                    The last element added is always the first one to be removed. This is known as the
+                    <strong>LIFO</strong> (Last In, First Out) principle.
+                </p>
+            </div>
+
+            <div class="complexity-grid">
+                <div class="complexity-item">
+                    <h3>Advantages</h3>
+                    <p><strong>Fast Operations</strong><br>Adding and removing is very fast (O(1)).</p>
+                    <p><strong>Simple</strong><br>Easy to implement and understand.</p>
+                </div>
+                <div class="complexity-item">
+                    <h3>Disadvantages</h3>
+                    <p><strong>Limited Access</strong><br>Can only access the top element.</p>
+                    <p><strong>Fixed Size</strong><br>If implemented with arrays, size might be fixed.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>developed by Edgar.</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script type="module" src="./script.js"></script>
+</body>
+
+</html>

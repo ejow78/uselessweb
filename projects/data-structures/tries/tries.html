@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tries - Data Structures</title>
+    <link rel="icon" type="image/svg+xml" href="../../../img/logo2x2.svg" />
+    <link rel="stylesheet" href="../../../style.css">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="nav-left">
+                <a href="../../../index.html">Edgar's useless web</a>
+            </div>
+            <div class="nav-center">
+                <img src="../../../img/logo2x2.svg" alt="Logo" class="logo-img">
+            </div>
+            <div class="nav-links">
+                <a href="../../../projects.html">Projects</a>
+                <a href="../../../journal.html">Journal</a>
+                <a href="../../../resume.html">Resumé</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="visualization-container">
+            <h1>Tries (Prefix Trees)</h1>
+            <p class="description">A tree-like data structure used to store a dynamic set or associative array where the
+                keys are usually strings. Useful for autocomplete.</p>
+
+            <div class="stats-panel">
+                <span>Search: <strong>O(L)</strong></span>
+                <span>Insert: <strong>O(L)</strong></span>
+                <span>Space: <strong>O(AL)</strong></span>
+            </div>
+            <p class="note" style="font-size: 0.8rem; color: var(--text-muted); margin-top: -1rem;">L = Word Length, A =
+                Alphabet Size</p>
+
+            <div id="trie-container">
+                <svg id="trie-svg" width="100%" height="100%"></svg>
+            </div>
+
+            <div class="controls">
+                <button id="start-btn">Start Demo</button>
+                <button id="reset-btn" class="secondary">Reset</button>
+            </div>
+            <div id="message-box" class="message-box">Ready to start.</div>
+        </section>
+
+        <section class="code-container">
+            <pre><code class="language-javascript">
+class TrieNode {
+    constructor() {
+        this.children = {};
+        this.isEndOfWord = false;
+    }
+}
+
+class Trie {
+    constructor() {
+        this.root = new TrieNode();
+    }
+
+    insert(word) {
+        let current = this.root;
+        for (let char of word) {
+            if (!current.children[char]) {
+                current.children[char] = new TrieNode();
+            }
+            current = current.children[char];
+        }
+        current.isEndOfWord = true;
+    }
+
+    search(word) {
+        let current = this.root;
+        for (let char of word) {
+            if (!current.children[char]) return false;
+            current = current.children[char];
+        }
+        return current.isEndOfWord;
+    }
+}
+            </code></pre>
+        </section>
+
+        <section class="theory-container">
+            <div class="theory-content">
+                <h2>How it Works</h2>
+                <p>
+                    A <strong>Trie</strong> (pronounced "try") stores strings character by character. Each node
+                    represents a character.
+                </p>
+                <p>
+                    All descendants of a node have a common prefix of the string associated with that node. This makes
+                    Tries extremely efficient for <strong>Prefix Matching</strong> (like autocomplete).
+                </p>
+            </div>
+
+            <div class="complexity-grid">
+                <div class="complexity-item">
+                    <h3>Advantages</h3>
+                    <p><strong>Fast Lookup</strong><br>O(L) where L is word length.</p>
+                    <p><strong>Prefix Search</strong><br>Efficiently find all words with a prefix.</p>
+                </div>
+                <div class="complexity-item">
+                    <h3>Disadvantages</h3>
+                    <p><strong>Memory</strong><br>Can use a lot of memory for pointers.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>developed by Edgar.</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script type="module" src="./script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dijkstra's Algorithm</title>
+    <link rel="icon" type="image/svg+xml" href="../../../img/logo2x2.svg" />
+    <link rel="stylesheet" href="../../../style.css">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="nav-left">
+                <a href="../../../index.html">Edgar's useless web</a>
+            </div>
+            <div class="nav-center">
+                <img src="../../../img/logo2x2.svg" alt="Logo" class="logo-img">
+            </div>
+            <div class="nav-links">
+                <a href="../../../projects.html">Projects</a>
+                <a href="../../../journal.html">Journal</a>
+                <a href="../../../resume.html">Resumé</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="visualization-container">
+            <h1>Dijkstra's Algorithm</h1>
+            <p class="description">Finds the shortest path from a source node to all other nodes in a weighted graph.
+            </p>
+
+            <div class="stats-panel">
+                <span>Status: <strong id="status-display">Ready</strong></span>
+                <span>Distance to Target: <strong id="distance-display">Infinity</strong></span>
+            </div>
+
+            <div id="graph-container">
+                <svg id="graph-svg" width="100%" height="100%"></svg>
+            </div>
+
+            <div class="controls">
+                <button id="start-btn">Find Shortest Path</button>
+                <button id="reset-btn">Reset Graph</button>
+            </div>
+        </section>
+
+        <section class="code-container">
+            <pre><code class="language-javascript">
+function dijkstra(graph, src) {
+    let dist = new Array(V).fill(Number.MAX_VALUE);
+    let visited = new Array(V).fill(false);
+
+    dist[src] = 0;
+
+    for (let count = 0; count &lt; V - 1; count++) {
+        let u = minDistance(dist, visited);
+        visited[u] = true;
+
+        for (let v = 0; v &lt; V; v++) {
+            if (!visited[v] && graph[u][v] !== 0 && 
+                dist[u] !== Number.MAX_VALUE &&
+                dist[u] + graph[u][v] &lt; dist[v]) {
+                dist[v] = dist[u] + graph[u][v];
+            }
+        }
+    }
+    return dist;
+}
+            </code></pre>
+        </section>
+
+        <section class="theory-container">
+            <div class="theory-content">
+                <h2>How it Works</h2>
+                <p>
+                    Dijkstra's algorithm is a greedy algorithm that finds the shortest path from a single source vertex
+                    to all other vertices in a weighted graph. It works by maintaining a set of visited vertices and a
+                    set of unvisited vertices. It starts at the source vertex and iteratively selects the unvisited
+                    vertex with the smallest tentative distance from the source.
+                </p>
+                <p>
+                    <strong>Key Concepts:</strong><br>
+                    * <strong>Relaxation:</strong> The process of updating the shortest path estimate to a vertex.<br>
+                    * <strong>Priority Queue:</strong> Often used to efficiently select the vertex with the minimum
+                    distance.
+                </p>
+            </div>
+
+            <div class="complexity-grid">
+                <div class="complexity-item">
+                    <h3>Time Complexity</h3>
+                    <p><strong>O(V²)</strong><br>Using a simple array. <strong>O(E + V log V)</strong> with a Fibonacci
+                        heap.</p>
+                </div>
+                <div class="complexity-item">
+                    <h3>Space Complexity</h3>
+                    <p><strong>O(V)</strong><br>To store distances and visited status.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>developed by Edgar.</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script type="module" src="./script.js"></script>
+</body>
+
+</html>

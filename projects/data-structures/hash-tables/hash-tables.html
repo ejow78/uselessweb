@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hash Tables - Data Structures</title>
+    <link rel="icon" type="image/svg+xml" href="../../../img/logo2x2.svg" />
+    <link rel="stylesheet" href="../../../style.css">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="nav-left">
+                <a href="../../../index.html">Edgar's useless web</a>
+            </div>
+            <div class="nav-center">
+                <img src="../../../img/logo2x2.svg" alt="Logo" class="logo-img">
+            </div>
+            <div class="nav-links">
+                <a href="../../../projects.html">Projects</a>
+                <a href="../../../journal.html">Journal</a>
+                <a href="../../../resume.html">Resumé</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="visualization-container">
+            <h1>Hash Tables</h1>
+            <p class="description">A data structure that implements an associative array abstract data type, a structure
+                that can map keys to values. It uses a hash function to compute an index.</p>
+
+            <div class="stats-panel">
+                <span>Search: <strong>O(1)*</strong></span>
+                <span>Insert: <strong>O(1)*</strong></span>
+                <span>Delete: <strong>O(1)*</strong></span>
+            </div>
+            <p class="note" style="font-size: 0.8rem; color: var(--text-muted); margin-top: -1rem;">* Average case.
+                Worst case O(n) with many collisions.</p>
+
+            <div id="hash-table-container">
+                <!-- Hash Table buckets will be injected here -->
+            </div>
+
+            <div class="controls">
+                <button id="start-btn">Start Demo</button>
+                <button id="reset-btn" class="secondary">Reset</button>
+            </div>
+            <div id="message-box" class="message-box">Ready to start.</div>
+        </section>
+
+        <section class="code-container">
+            <pre><code class="language-javascript">
+class HashTable {
+    constructor(size = 7) {
+        this.buckets = new Array(size);
+        this.size = size;
+    }
+
+    hash(key) {
+        let total = 0;
+        for (let i = 0; i &lt; key.length; i++) {
+            total += key.charCodeAt(i);
+        }
+        return total % this.size;
+    }
+
+    insert(key, value) {
+        const index = this.hash(key);
+        if (!this.buckets[index]) {
+            this.buckets[index] = [];
+        }
+        this.buckets[index].push({ key, value });
+    }
+
+    get(key) {
+        const index = this.hash(key);
+        if (!this.buckets[index]) return null;
+        for (let item of this.buckets[index]) {
+            if (item.key === key) return item.value;
+        }
+        return null;
+    }
+}
+            </code></pre>
+        </section>
+
+        <section class="theory-container">
+            <div class="theory-content">
+                <h2>How it Works</h2>
+                <p>
+                    A <strong>Hash Table</strong> uses a <strong>Hash Function</strong> to convert a key (like "apple")
+                    into an index (like 3) where the value is stored.
+                </p>
+                <p>
+                    <strong>Collisions:</strong> Sometimes different keys hash to the same index. We handle this using
+                    <strong>Chaining</strong> (storing a list at that index) or Open Addressing. This visualization uses
+                    Chaining.
+                </p>
+            </div>
+
+            <div class="complexity-grid">
+                <div class="complexity-item">
+                    <h3>Advantages</h3>
+                    <p><strong>Fast Access</strong><br>O(1) average time for lookup.</p>
+                    <p><strong>Flexible Keys</strong><br>Can use strings, objects, etc. as keys.</p>
+                </div>
+                <div class="complexity-item">
+                    <h3>Disadvantages</h3>
+                    <p><strong>Collisions</strong><br>Can degrade performance to O(n).</p>
+                    <p><strong>Unordered</strong><br>Data is not stored in any specific order.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>developed by Edgar.</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script type="module" src="./script.js"></script>
+</body>
+
+</html>

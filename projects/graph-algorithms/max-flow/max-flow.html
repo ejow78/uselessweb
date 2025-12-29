@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Max Flow (Ford-Fulkerson)</title>
+    <link rel="icon" type="image/svg+xml" href="../../../img/logo2x2.svg" />
+    <link rel="stylesheet" href="../../../style.css">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="nav-left">
+                <a href="../../../index.html">Edgar's useless web</a>
+            </div>
+            <div class="nav-center">
+                <img src="../../../img/logo2x2.svg" alt="Logo" class="logo-img">
+            </div>
+            <div class="nav-links">
+                <a href="../../../projects.html">Projects</a>
+                <a href="../../../journal.html">Journal</a>
+                <a href="../../../resume.html">Resumé</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="visualization-container">
+            <h1>Max Flow (Ford-Fulkerson)</h1>
+            <p class="description">An algorithm that computes the maximum possible flow in a flow network from a source
+                node to a sink node.</p>
+
+            <div class="stats-panel">
+                <span>Max Flow: <strong id="max-flow-display">0</strong></span>
+                <span>Algorithm: <strong>Edmonds-Karp</strong></span>
+            </div>
+
+            <div id="graph-container">
+                <!-- SVG Graph will be injected here -->
+                <svg id="graph-svg" width="100%" height="100%"></svg>
+            </div>
+
+            <div class="controls">
+                <button id="start-btn">Find Max Flow</button>
+                <button id="reset-btn">Reset Graph</button>
+            </div>
+            <div class="message-box" id="message-box">Ready to start...</div>
+        </section>
+
+        <section class="code-container">
+            <pre><code class="language-javascript">
+function bfs(rGraph, s, t, parent) {
+    // Create a visited array and mark all vertices as not visited
+    let visited = new Array(V).fill(false);
+    let queue = [];
+    queue.push(s);
+    visited[s] = true;
+    parent[s] = -1;
+
+    while (queue.length !== 0) {
+        let u = queue.shift();
+
+        for (let v = 0; v &lt; V; v++) {
+            if (visited[v] === false && rGraph[u][v] > 0) {
+                if (v === t) {
+                    parent[v] = u;
+                    return true;
+                }
+                queue.push(v);
+                parent[v] = u;
+                visited[v] = true;
+            }
+        }
+    }
+    return false;
+}
+
+function fordFulkerson(graph, s, t) {
+    let u, v;
+    let rGraph = new Array(V); // Residual Graph
+
+    for (u = 0; u &lt; V; u++) {
+        rGraph[u] = new Array(V);
+        for (v = 0; v &lt; V; v++)
+             rGraph[u][v] = graph[u][v];
+    }
+
+    let parent = new Array(V);
+    let max_flow = 0;
+
+    // Augment the flow while there is path from source to sink
+    while (bfs(rGraph, s, t, parent)) {
+        let path_flow = Number.MAX_VALUE;
+        for (v = t; v !== s; v = parent[v]) {
+            u = parent[v];
+            path_flow = Math.min(path_flow, rGraph[u][v]);
+        }
+
+        for (v = t; v !== s; v = parent[v]) {
+            u = parent[v];
+            rGraph[u][v] -= path_flow;
+            rGraph[v][u] += path_flow;
+        }
+
+        max_flow += path_flow;
+    }
+    return max_flow;
+}
+            </code></pre>
+        </section>
+
+        <section class="theory-container">
+            <div class="theory-content">
+                <h2>How it Works</h2>
+                <p>
+                    The Ford-Fulkerson method computes the maximum flow in a flow network. It is called a "method"
+                    instead of an "algorithm" because it encompasses several implementations with differing running
+                    times. The <strong>Edmonds-Karp</strong> algorithm is a specific implementation of Ford-Fulkerson
+                    that uses BFS for finding augmenting paths.
+                </p>
+                <p>
+                    <strong>Key Concepts:</strong><br>
+                    * <strong>Flow Network:</strong> A directed graph where each edge has a capacity and each edge
+                    receives a flow.<br>
+                    * <strong>Source (s):</strong> The node where flow starts.<br>
+                    * <strong>Sink (t):</strong> The node where flow ends.<br>
+                    * <strong>Residual Graph:</strong> Indicates additional possible flow. If there is a path from
+                    source to sink in the residual graph, it is an <em>augmenting path</em>.
+                </p>
+            </div>
+
+            <div class="complexity-grid">
+                <div class="complexity-item">
+                    <h3>Time Complexity</h3>
+                    <p><strong>O(V E²)</strong><br>For Edmonds-Karp implementation using BFS.</p>
+                </div>
+                <div class="complexity-item">
+                    <h3>Space Complexity</h3>
+                    <p><strong>O(V²)</strong><br>To store the graph (Adjacency Matrix).</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>developed by Edgar.</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script type="module" src="./script.js"></script>
+</body>
+
+</html>

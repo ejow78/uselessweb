@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graphs - Data Structures</title>
+    <link rel="icon" type="image/svg+xml" href="../../../img/logo2x2.svg" />
+    <link rel="stylesheet" href="../../../style.css">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="nav-left">
+                <a href="../../../index.html">Edgar's useless web</a>
+            </div>
+            <div class="nav-center">
+                <img src="../../../img/logo2x2.svg" alt="Logo" class="logo-img">
+            </div>
+            <div class="nav-links">
+                <a href="../../../projects.html">Projects</a>
+                <a href="../../../journal.html">Journal</a>
+                <a href="../../../resume.html">Resumé</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="visualization-container">
+            <h1>Graphs</h1>
+            <p class="description">A non-linear data structure consisting of nodes (vertices) and edges. Graphs are used
+                to represent networks.</p>
+
+            <div class="stats-panel">
+                <span>BFS: <strong>O(V + E)</strong></span>
+                <span>DFS: <strong>O(V + E)</strong></span>
+            </div>
+
+            <div id="graph-container">
+                <svg id="graph-svg" width="100%" height="100%"></svg>
+            </div>
+
+            <div class="controls">
+                <button id="start-btn">Start Demo</button>
+                <button id="reset-btn" class="secondary">Reset</button>
+            </div>
+            <div id="message-box" class="message-box">Ready to start.</div>
+        </section>
+
+        <section class="code-container">
+            <pre><code class="language-javascript">
+// Breadth-First Search (BFS)
+function bfs(startNode) {
+    let queue = [startNode];
+    let visited = new Set();
+    visited.add(startNode);
+
+    while (queue.length > 0) {
+        let node = queue.shift();
+        console.log(node);
+
+        for (let neighbor of graph[node]) {
+            if (!visited.has(neighbor)) {
+                visited.add(neighbor);
+                queue.push(neighbor);
+            }
+        }
+    }
+}
+
+// Depth-First Search (DFS)
+function dfs(node, visited = new Set()) {
+    visited.add(node);
+    console.log(node);
+
+    for (let neighbor of graph[node]) {
+        if (!visited.has(neighbor)) {
+            dfs(neighbor, visited);
+        }
+    }
+}
+            </code></pre>
+        </section>
+
+        <section class="theory-container">
+            <div class="theory-content">
+                <h2>How it Works</h2>
+                <p>
+                    A <strong>Graph</strong> is a collection of nodes connected by edges.
+                </p>
+                <p>
+                    <strong>BFS (Breadth-First Search)</strong> explores neighbor nodes first, before moving to the next
+                    level neighbors. It uses a Queue.
+                </p>
+                <p>
+                    <strong>DFS (Depth-First Search)</strong> explores as far as possible along each branch before
+                    backtracking. It uses a Stack (or recursion).
+                </p>
+            </div>
+
+            <div class="complexity-grid">
+                <div class="complexity-item">
+                    <h3>Advantages</h3>
+                    <p><strong>Modeling</strong><br>Great for modeling real-world networks.</p>
+                    <p><strong>Pathfinding</strong><br>Algorithms like BFS can find shortest paths.</p>
+                </div>
+                <div class="complexity-item">
+                    <h3>Disadvantages</h3>
+                    <p><strong>Complexity</strong><br>Algorithms can be complex to implement.</p>
+                    <p><strong>Storage</strong><br>Can consume lots of memory (Adjacency Matrix).</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>developed by Edgar.</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script type="module" src="./script.js"></script>
+</body>
+
+</html>

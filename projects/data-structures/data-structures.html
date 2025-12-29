@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="../../img/logo2x2.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Data Structures</title>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="nav-left">
+                <a href="../../index.html">Edgar's useless web</a>
+            </div>
+            <div class="nav-center">
+                <img src="../../img/logo2x2.svg" alt="Logo" class="logo-img">
+            </div>
+            <div class="nav-links">
+                <a href="../../projects.html">Projects</a>
+                <a href="../../journal.html">Journal</a>
+                <a href="../../resume.html">Resumé</a>
+            </div>
+        </nav>
+    </header>
+
+    <main id="app">
+        <section id="hero">
+            <h1>Data Structures</h1>
+            <p>Visualizing how computers organize and store data.</p>
+        </section>
+
+        <section id="data-structures-list">
+            <style>
+                .project-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                    gap: 2rem;
+                    padding: 1rem 0 3rem;
+                }
+
+                h2 {
+                    font-size: 1.5rem;
+                    margin-top: 2rem;
+                    margin-bottom: 1rem;
+                    color: var(--text-color);
+                    border-bottom: 1px solid var(--border-color);
+                    padding-bottom: 0.5rem;
+                }
+            </style>
+
+            <h2>Linear Structures</h2>
+            <div class="project-grid">
+                <a href="./arrays/arrays.html" class="project-card"
+                    style="text-decoration: none; color: inherit; display: block;">
+                    <h3>Arrays</h3>
+                    <p>Basic collection of elements stored at contiguous memory locations.</p>
+                    <span class="date">2025-12-29</span>
+                </a>
+                <a href="./linked-lists/linked-lists.html" class="project-card"
+                    style="text-decoration: none; color: inherit; display: block;">
+                    <h3>Linked Lists</h3>
+                    <p>Linear collection of data elements whose order is not given by their physical placement in
+                        memory.</p>
+                    <span class="date">2025-12-29</span>
+                </a>
+                <a href="./stacks/stacks.html" class="project-card"
+                    style="text-decoration: none; color: inherit; display: block;">
+                    <h3>Stacks</h3>
+                    <p>Abstract data type that serves as a collection of elements, with two main principal operations:
+                        Push and Pop.</p>
+                    <span class="date">2025-12-29</span>
+                </a>
+                <a href="./queues/queues.html" class="project-card"
+                    style="text-decoration: none; color: inherit; display: block;">
+                    <h3>Queues</h3>
+                    <p>Collection of entities that are maintained in a sequence and can be modified by the addition of
+                        entities at one end of the sequence.</p>
+                    <span class="date">2025-12-29</span>
+                </a>
+            </div>
+
+            <h2>Non-Linear Structures</h2>
+            <div class="project-grid">
+                <a href="./trees/trees.html" class="project-card"
+                    style="text-decoration: none; color: inherit; display: block;">
+                    <h3>Trees</h3>
+                    <p>Widely used abstract data type that simulates a hierarchical tree structure.</p>
+                    <span class="date">2025-12-29</span>
+                </a>
+                <a href="./graphs/graphs.html" class="project-card"
+                    style="text-decoration: none; color: inherit; display: block;">
+                    <h3>Graphs</h3>
+                    <p>Structure amounting to a set of objects in which some pairs of the objects are in some sense
+                        "related".</p>
+                    <span class="date">2025-12-29</span>
+                </a>
+                <a href="./hash-tables/hash-tables.html" class="project-card"
+                    style="text-decoration: none; color: inherit; display: block;">
+                    <h3>Hash Tables</h3>
+                    <p>Data structure that implements an associative array abstract data type, a structure that can map
+                        keys to values.</p>
+                    <span class="date">2025-12-29</span>
+                </a>
+                <a href="./tries/tries.html" class="project-card"
+                    style="text-decoration: none; color: inherit; display: block;">
+                    <h3>Tries</h3>
+                    <p>Tree data structure used for locating specific keys from within a set.</p>
+                    <span class="date">2025-12-29</span>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>developed by Edgar.</p>
+    </footer>
+</body>
+
+</html>

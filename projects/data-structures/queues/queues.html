@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Queues - Data Structures</title>
+    <link rel="icon" type="image/svg+xml" href="../../../img/logo2x2.svg" />
+    <link rel="stylesheet" href="../../../style.css">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="nav-left">
+                <a href="../../../index.html">Edgar's useless web</a>
+            </div>
+            <div class="nav-center">
+                <img src="../../../img/logo2x2.svg" alt="Logo" class="logo-img">
+            </div>
+            <div class="nav-links">
+                <a href="../../../projects.html">Projects</a>
+                <a href="../../../journal.html">Journal</a>
+                <a href="../../../resume.html">Resumé</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="visualization-container">
+            <h1>Queues</h1>
+            <p class="description">A linear data structure which follows a particular order in which the operations are
+                performed. The order is <strong>FIFO</strong> (First In First Out).</p>
+
+            <div class="stats-panel">
+                <span>Enqueue: <strong>O(1)</strong></span>
+                <span>Dequeue: <strong>O(1)</strong></span>
+                <span>Peek: <strong>O(1)</strong></span>
+            </div>
+
+            <div id="queue-container">
+                <!-- Queue elements will be injected here -->
+            </div>
+
+            <div class="controls">
+                <button id="start-btn">Start Demo</button>
+                <button id="reset-btn" class="secondary">Reset</button>
+            </div>
+            <div id="message-box" class="message-box">Ready to start.</div>
+        </section>
+
+        <section class="code-container">
+            <pre><code class="language-javascript">
+class Queue {
+    constructor() {
+        this.items = [];
+    }
+
+    // Enqueue: O(1)
+    enqueue(element) {
+        this.items.push(element);
+    }
+
+    // Dequeue: O(1) (amortized or with linked list)
+    // Array shift is O(n), but conceptually Queue is O(1)
+    dequeue() {
+        if (this.isEmpty()) return "Underflow";
+        return this.items.shift();
+    }
+
+    // Peek: O(1)
+    front() {
+        if (this.isEmpty()) return "No elements";
+        return this.items[0];
+    }
+
+    isEmpty() {
+        return this.items.length === 0;
+    }
+}
+            </code></pre>
+        </section>
+
+        <section class="theory-container">
+            <div class="theory-content">
+                <h2>How it Works</h2>
+                <p>
+                    Think of a <strong>Queue</strong> like a line of people waiting for a bus. The first person to
+                    arrive (<strong>Enqueue</strong>) is the first person to get on the bus (<strong>Dequeue</strong>).
+                </p>
+                <p>
+                    This is known as the <strong>FIFO</strong> (First In, First Out) principle. Elements are added to
+                    the <strong>Rear</strong> and removed from the <strong>Front</strong>.
+                </p>
+            </div>
+
+            <div class="complexity-grid">
+                <div class="complexity-item">
+                    <h3>Advantages</h3>
+                    <p><strong>Order Preserved</strong><br>Maintains the order of elements.</p>
+                    <p><strong>Fast Operations</strong><br>Adding and removing is fast (O(1)).</p>
+                </div>
+                <div class="complexity-item">
+                    <h3>Disadvantages</h3>
+                    <p><strong>Limited Access</strong><br>Can only access the front element.</p>
+                    <p><strong>Fixed Size</strong><br>If implemented with static arrays.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>developed by Edgar.</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script type="module" src="./script.js"></script>
+</body>
+
+</html>

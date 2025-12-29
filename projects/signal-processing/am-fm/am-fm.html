@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AM/FM Modulation</title>
+    <link rel="icon" type="image/svg+xml" href="../../../img/logo2x2.svg" />
+    <link rel="stylesheet" href="../../../style.css">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="nav-left">
+                <a href="../../../index.html">Edgar's useless web</a>
+            </div>
+            <div class="nav-center">
+                <img src="../../../img/logo2x2.svg" alt="Logo" class="logo-img">
+            </div>
+            <div class="nav-links">
+                <a href="../../../projects.html">Projects</a>
+                <a href="../../../journal.html">Journal</a>
+                <a href="../../../resume.html">Resumé</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="visualization-container">
+            <h1>AM / FM Modulation</h1>
+            <p class="description">Visualizing Amplitude Modulation (AM) and Frequency Modulation (FM).</p>
+
+            <div class="canvas-container">
+                <canvas id="modulation-canvas"></canvas>
+            </div>
+
+            <div class="controls-panel">
+                <div class="control-group">
+                    <label>Modulation Type</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="modType" value="AM" checked> AM</label>
+                        <label><input type="radio" name="modType" value="FM"> FM</label>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="carrierFreq">Carrier Frequency (Fc): <span id="fc-val">10</span> Hz</label>
+                    <input type="range" id="carrierFreq" min="1" max="50" value="10" step="1">
+                </div>
+
+                <div class="control-group">
+                    <label for="modFreq">Modulating Frequency (Fm): <span id="fm-val">1</span> Hz</label>
+                    <input type="range" id="modFreq" min="0.1" max="5" value="1" step="0.1">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>developed by Edgar.</p>
+    </footer>
+
+    <script type="module" src="./script.js"></script>
+</body>
+
+</html>

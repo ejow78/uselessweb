@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logical Topologies</title>
+    <link rel="icon" type="image/svg+xml" href="../../../img/logo2x2.svg" />
+    <link rel="stylesheet" href="../../../style.css">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="nav-left">
+                <a href="../../../index.html">Edgar's useless web</a>
+            </div>
+            <div class="nav-center">
+                <img src="../../../img/logo2x2.svg" alt="Logo" class="logo-img">
+            </div>
+            <div class="nav-links">
+                <a href="../../../projects.html">Projects</a>
+                <a href="../../../journal.html">Journal</a>
+                <a href="../../../resume.html">Resumé</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="visualization-container">
+            <h1>Logical Topologies</h1>
+            <p class="description">How data flows through the network, regardless of physical connection.</p>
+
+            <div class="topology-selector">
+                <button class="topo-btn active" data-type="token">Token Ring</button>
+                <button class="topo-btn" data-type="broadcast">Broadcast (Ethernet)</button>
+            </div>
+
+            <div id="network-container">
+                <svg id="network-svg" width="100%" height="100%"></svg>
+            </div>
+
+            <div class="controls">
+                <button id="action-btn">Start Token</button>
+            </div>
+
+            <div class="info-panel">
+                <h3 id="topo-title">Token Ring Logic</h3>
+                <p id="topo-desc">A "token" frame travels around the network. Only the node with the token can transmit
+                    data. This prevents collisions.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>developed by Edgar.</p>
+    </footer>
+
+    <script type="module" src="./script.js"></script>
+</body>
+
+</html>

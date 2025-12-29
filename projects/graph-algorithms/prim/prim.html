@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prim's Algorithm</title>
+    <link rel="icon" type="image/svg+xml" href="../../../img/logo2x2.svg" />
+    <link rel="stylesheet" href="../../../style.css">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="nav-left">
+                <a href="../../../index.html">Edgar's useless web</a>
+            </div>
+            <div class="nav-center">
+                <img src="../../../img/logo2x2.svg" alt="Logo" class="logo-img">
+            </div>
+            <div class="nav-links">
+                <a href="../../../projects.html">Projects</a>
+                <a href="../../../journal.html">Journal</a>
+                <a href="../../../resume.html">Resumé</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="visualization-container">
+            <h1>Prim's Algorithm</h1>
+            <p class="description">Finds the Minimum Spanning Tree (MST) for a weighted undirected graph.</p>
+
+            <div class="stats-panel">
+                <span>Status: <strong id="status-display">Ready</strong></span>
+                <span>Total Weight: <strong id="weight-display">0</strong></span>
+            </div>
+
+            <div id="graph-container">
+                <svg id="graph-svg" width="100%" height="100%"></svg>
+            </div>
+
+            <div class="controls">
+                <button id="start-btn">Find MST</button>
+                <button id="reset-btn">Reset Graph</button>
+            </div>
+        </section>
+
+        <section class="code-container">
+            <pre><code class="language-javascript">
+function primMST(graph) {
+    let parent = new Array(V);
+    let key = new Array(V).fill(Number.MAX_VALUE);
+    let mstSet = new Array(V).fill(false);
+
+    key[0] = 0;
+    parent[0] = -1;
+
+    for (let count = 0; count &lt; V - 1; count++) {
+        let u = minKey(key, mstSet);
+        mstSet[u] = true;
+
+        for (let v = 0; v &lt; V; v++) {
+            if (graph[u][v] && mstSet[v] === false && 
+                graph[u][v] &lt; key[v]) {
+                parent[v] = u;
+                key[v] = graph[u][v];
+            }
+        }
+    }
+}
+            </code></pre>
+        </section>
+
+        <section class="theory-container">
+            <div class="theory-content">
+                <h2>How it Works</h2>
+                <p>
+                    Prim's algorithm is a greedy algorithm that finds a minimum spanning tree for a weighted undirected
+                    graph. It connects all the vertices together, without any cycles and with the minimum possible total
+                    edge weight.
+                </p>
+                <p>
+                    <strong>Key Concepts:</strong><br>
+                    * <strong>MST:</strong> A subset of the edges of a connected, edge-weighted graph that connects all
+                    the vertices together, without any cycles and with the minimum possible total edge weight.<br>
+                    * <strong>Cut Property:</strong> For any cut (a partition of the vertices into two disjoint sets),
+                    if an edge has the minimum weight of any edge crossing the cut, then this edge belongs to some MST.
+                </p>
+            </div>
+
+            <div class="complexity-grid">
+                <div class="complexity-item">
+                    <h3>Time Complexity</h3>
+                    <p><strong>O(V²)</strong><br>Using adjacency matrix. <strong>O(E + V log V)</strong> with adjacency
+                        list and binary heap.</p>
+                </div>
+                <div class="complexity-item">
+                    <h3>Space Complexity</h3>
+                    <p><strong>O(V)</strong><br>To store keys and MST set.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>developed by Edgar.</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script type="module" src="./script.js"></script>
+</body>
+
+</html>
