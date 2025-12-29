@@ -81,15 +81,23 @@ function draw() {
     ctx.fillStyle = '#18181b';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    let x = 200; // Center of first circle
-    let y = canvas.height / 2;
+    // Dynamic positioning
+    let startX = canvas.width * 0.25; // Circles center at 25% width
+    let startY = canvas.height / 2;
+    let waveStart = canvas.width * 0.6; // Wave starts at 60% width
+
+    let x = startX;
+    let y = startY;
 
     for (let i = 0; i < nHarmonics; i++) {
         let prevX = x;
         let prevY = y;
 
         let n = i * 2 + 1; // Odd harmonics for square wave: 1, 3, 5...
-        let radius = 75 * (4 / (n * Math.PI)); // Amplitude
+
+        // Scale radius based on canvas size to fit
+        let baseRadius = Math.min(canvas.width, canvas.height) * 0.15;
+        let radius = baseRadius * (4 / (n * Math.PI)); // Amplitude
 
         x += radius * Math.cos(n * time);
         y += radius * Math.sin(n * time);
@@ -115,21 +123,21 @@ function draw() {
     ctx.beginPath();
     ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
     ctx.moveTo(x, y);
-    ctx.lineTo(400, wave[0]);
+    ctx.lineTo(waveStart, wave[0]);
     ctx.stroke();
 
     // Draw Wave
     ctx.beginPath();
     ctx.strokeStyle = '#3b82f6';
     ctx.lineWidth = 2;
-    ctx.moveTo(400, wave[0]);
+    ctx.moveTo(waveStart, wave[0]);
 
     for (let i = 1; i < wave.length; i++) {
-        ctx.lineTo(400 + i, wave[i]);
+        ctx.lineTo(waveStart + i, wave[i]);
     }
     ctx.stroke();
 
-    if (wave.length > 500) {
+    if (wave.length > canvas.width - waveStart) {
         wave.pop();
     }
 

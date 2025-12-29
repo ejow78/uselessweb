@@ -34,6 +34,7 @@ export default defineConfig({
                 prim: resolve(__dirname, 'projects/graph-algorithms/prim/prim.html'),
                 // Signal Processing
                 signalProcessing: resolve(__dirname, 'projects/signal-processing/signal-processing.html'),
+                toneVisualizer: resolve(__dirname, 'projects/signal-processing/tone-visualizer/tone-visualizer.html'),
                 fourier: resolve(__dirname, 'projects/signal-processing/fourier/fourier.html'),
                 amFm: resolve(__dirname, 'projects/signal-processing/am-fm/am-fm.html'),
                 // Network Topologies
