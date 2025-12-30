@@ -25,6 +25,11 @@ const projects = [
     title: 'Network Topologies',
     description: 'Visualizing Physical and Logical network layouts.',
     link: './projects/network-topologies/network-topologies.html'
+  },
+  {
+    title: 'F1 Data Analysis',
+    description: 'Historical analysis of F1 rivalries (2021) and future prospects.',
+    link: './projects/data-analysis/f1-rivalry/f1-data-analysis.html'
   }
 ];
 
