@@ -913,6 +913,7 @@ export default async function initColapinto() {
 
             const telemetry = data.telemetry;
             const distance = telemetry.Distance;
+            const time = telemetry.Time; // Required for sector mapping
             const xCoords = telemetry.X;
             const yCoords = telemetry.Y;
 
