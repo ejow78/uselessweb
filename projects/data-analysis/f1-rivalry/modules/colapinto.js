@@ -906,7 +906,12 @@ export default async function initColapinto() {
 
     async function loadTelemetryCharts(telemetryId, raceName) {
         try {
-            const response = await fetch(`assets/telemetry/${telemetryId}.json`);
+            // Determine the correct base path based on current location
+            const basePath = window.location.pathname.includes('/projects/data-analysis/f1-rivalry')
+                ? './assets/telemetry/'
+                : './projects/data-analysis/f1-rivalry/assets/telemetry/';
+
+            const response = await fetch(`${basePath}${telemetryId}.json`);
             const data = await response.json();
 
             const telemetry = data.telemetry;
