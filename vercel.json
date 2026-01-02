@@ -7,6 +7,10 @@
             "destination": "/projects.html"
         },
         {
+            "source": "/projects/data-analysis/f1-rivalry",
+            "destination": "/projects/data-analysis/f1-rivalry/f1-data-analysis.html"
+        },
+        {
             "source": "/journal",
             "destination": "/journal.html"
         },
