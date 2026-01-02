@@ -757,7 +757,7 @@ export default async function initColapinto() {
             </div>
 
             ${race.hasTelemetry ? `
-                <!-- Track Map & Sector Times (Top Priority) -->
+                <!-- Track Map & Sector Times (Second Priority) -->
                 <div class="card-panel" style="margin-bottom: 1.5rem;">
                     <h3>Circuit Map & Sectors</h3>
                     <div style="color: #888; font-size: 0.9em; margin-bottom: 1rem; margin-top: -0.5rem;">
@@ -797,7 +797,7 @@ export default async function initColapinto() {
                 </div>
             ` : ''}
 
-            <!-- Session Results & Comparison -->
+            <!-- Session Results & Comparison (First Priority) -->
             <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 1.5rem;">
                 <div class="card-panel" style="flex: 1 1 300px;">
                     <h3>Comparison vs ${teammateName}</h3>
@@ -864,25 +864,29 @@ export default async function initColapinto() {
                     <h2 style="margin-bottom: 1.5rem;">Telemetry Analysis (Fastest Lap)</h2>
                     
                     <!-- Speed Chart (Full Width) -->
-                    <div class="card-panel" style="margin-bottom: 1.5rem;">
+                    <div class="card-panel" style="margin-bottom: 1.5rem; overflow: hidden;">
                         <h3>Speed Trace</h3>
-                        <canvas id="speedChart"></canvas>
+                        <div style="position: relative; height: 300px; width: 100%;">
+                            <canvas id="speedChart"></canvas>
+                        </div>
                     </div>
 
                     <!-- Bottom Row: Pedals + Gear/RPM (Stack on Mobile) -->
-                    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem;">
-                        <div class="card-panel" style="flex: 1 1 300px;">
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <div class="card-panel" style="overflow: hidden;">
                             <h3>Throttle & Brake</h3>
-                            <canvas id="pedalsChart"></canvas>
-                        </div>
-                        <div class="card-panel" style="flex: 1 1 300px; display:grid; grid-template-rows: 1fr 1fr; gap:1rem;">
-                            <div style="position: relative;">
-                                <h4 style="margin:0 0 0.5rem 0; font-size:0.9em; color:#888;">Gear</h4>
-                                <canvas id="gearChart" style="max-height: 150px;"></canvas>
+                            <div style="position: relative; height: 250px; width: 100%;">
+                                <canvas id="pedalsChart"></canvas>
                             </div>
-                            <div style="position: relative;">
+                        </div>
+                        <div class="card-panel" style="display:grid; grid-template-rows: 1fr 1fr; gap:1rem; overflow: hidden;">
+                            <div style="position: relative; height: 150px; width: 100%;">
+                                <h4 style="margin:0 0 0.5rem 0; font-size:0.9em; color:#888;">Gear</h4>
+                                <canvas id="gearChart"></canvas>
+                            </div>
+                            <div style="position: relative; height: 150px; width: 100%;">
                                 <h4 style="margin:0 0 0.5rem 0; font-size:0.9em; color:#888;">RPM</h4>
-                                <canvas id="rpmChart" style="max-height: 150px;"></canvas>
+                                <canvas id="rpmChart"></canvas>
                             </div>
                         </div>
                     </div>
