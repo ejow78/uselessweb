@@ -725,6 +725,19 @@ export default async function initColapinto() {
         }
     }
 
+    function getTrackMapFilename(raceName) {
+        if (raceName.includes("Italian")) return "monza.svg";
+        if (raceName.includes("Azerbaijan")) return "baku.svg";
+        if (raceName.includes("Singapore")) return "singapore.svg";
+        if (raceName.includes("United States")) return "austin.svg";
+        if (raceName.includes("Mexico")) return "mexico.svg";
+        if (raceName.includes("São Paulo")) return "interlagos.svg";
+        if (raceName.includes("Las Vegas")) return "las_vegas.svg";
+        if (raceName.includes("Qatar")) return "qatar.svg";
+        if (raceName.includes("Abu Dhabi")) return "abu_dhabi.svg";
+        return "monza.svg";
+    }
+
     function renderRaceDetail(race) {
         const theme = themes[currentSeasonYear];
         const teammateName = currentSeasonYear === 2024 ? 'Albon' : 'Gasly';
@@ -776,8 +789,8 @@ export default async function initColapinto() {
                     return `${key ? flags[key] : ''} ${race.circuit}`;
                 })()}
                     </div>
-                    <div style="position: relative; height: 300px; width: 100%;">
-                        <canvas id="trackMap"></canvas>
+                    <div style="position: relative; height: 300px; width: 100%; display: flex; justify-content: center; align-items: center;">
+                        <img src="/tracks/${getTrackMapFilename(race.raceName)}" alt="${race.circuit} Map" style="max-width: 90%; max-height: 90%; filter: invert(1);">
                     </div>
                     <!-- Sector Times -->
                     <div id="sector-times" style="margin-top: 1rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; font-family: monospace; font-size: 0.9em;">
@@ -1049,38 +1062,8 @@ export default async function initColapinto() {
                 });
             };
 
-            // Track Map (Scatter Plot)
-            if (xCoords && yCoords) {
-                const ctxMap = document.getElementById('trackMap').getContext('2d');
-                const trackData = xCoords.map((x, i) => ({ x: x, y: yCoords[i] }));
-
-                new Chart(ctxMap, {
-                    type: 'scatter',
-                    data: {
-                        datasets: [{
-                            label: 'Track Layout',
-                            data: trackData,
-                            borderColor: '#005aff',
-                            backgroundColor: '#005aff',
-                            pointRadius: 2,
-                            showLine: true,
-                            borderWidth: 2
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { display: false }, tooltip: { enabled: false } },
-                        scales: {
-                            x: { display: false },
-                            y: { display: false }
-                        },
-                        elements: {
-                            point: { radius: 0 }
-                        }
-                    }
-                });
-            }
+            // Track Map (Scatter Plot) - REPLACED WITH SVG IMAGE
+            // if (xCoords && yCoords) { ... }
 
             // Speed Chart
             createChart('speedChart', 'Speed (km/h)', telemetry.Speed, 'rgb(0, 255, 127)', 'line', 'Speed');
