@@ -964,10 +964,24 @@ export default async function initColapinto() {
                         responsive: true,
                         animation: { duration: 500 },
                         interaction: { mode: 'index', intersect: false },
-                        plugins: { legend: { display: true, labels: { color: '#fff' } } },
+                        plugins: {
+                            legend: { display: true, labels: { color: '#fff' } },
+                            tooltip: {
+                                callbacks: {
+                                    title: (context) => {
+                                        return `Distance: ${context[0].label}m`; // Clarify the top number
+                                    }
+                                }
+                            }
+                        },
                         scales: {
-                            x: { type: 'linear', display: true, title: { display: true, text: 'Distance (m)', color: '#666' }, ticks: { color: '#666' } },
-                            y: { display: true, title: { display: !!yAxisLabel, text: yAxisLabel, color: '#666' }, ticks: { color: '#666' } }
+                            x: {
+                                type: 'linear',
+                                display: true,
+                                title: { display: true, text: 'Distance (m)', color: '#999', font: { size: 12 } },
+                                ticks: { color: '#666' }
+                            },
+                            y: { display: true, title: { display: !!yAxisLabel, text: yAxisLabel, color: '#999' }, ticks: { color: '#666' } }
                         }
                     }
                 });
