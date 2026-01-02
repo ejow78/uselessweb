@@ -41,6 +41,8 @@ export default defineConfig({
                 networkTopologies: resolve(__dirname, 'projects/network-topologies/network-topologies.html'),
                 physical: resolve(__dirname, 'projects/network-topologies/physical/physical.html'),
                 logical: resolve(__dirname, 'projects/network-topologies/logical/logical.html'),
+                // Data Analysis
+                f1Rivalry: resolve(__dirname, 'projects/data-analysis/f1-rivalry/f1-data-analysis.html'),
             },
         },
     },
