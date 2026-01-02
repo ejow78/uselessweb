@@ -756,30 +756,50 @@ export default async function initColapinto() {
                 </div>
             </div>
 
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
-                <div class="card-panel">
-                    <h3>Session Results</h3>
-                    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
-                        ${Object.entries(race.sessions).map(([key, session]) => {
-            if (key === 'race') return ''; // Skip race, shown in header
-            const label = key.toUpperCase();
-            return `
-                                <tr style="border-bottom: 1px solid #333;">
-                                    <td style="padding: 0.8rem 0; color: #888;">${label}</td>
-                                    <td style="padding: 0.8rem 0; text-align: right; font-weight: bold;">P${session.pos}</td>
-                                    <td style="padding: 0.8rem 0; text-align: right; font-family: monospace;">${session.time || '-'}</td>
-                                </tr>
-                            `;
-        }).join('')}
-                        <tr style="border-bottom: 1px solid #333;">
-                            <td style="padding: 0.8rem 0; color: #888;">RACE</td>
-                            <td style="padding: 0.8rem 0; text-align: right; font-weight: bold;">${race.sessions.race.status === 'DNF' ? 'DNF' : 'P' + race.sessions.race.pos}</td>
-                            <td style="padding: 0.8rem 0; text-align: right; font-family: monospace;">${race.sessions.race.time || '-'}</td>
-                        </tr>
-                    </table>
+            ${race.hasTelemetry ? `
+                <!-- Track Map & Sector Times (Top Priority) -->
+                <div class="card-panel" style="margin-bottom: 1.5rem;">
+                    <h3>Circuit Map & Sectors</h3>
+                    <div style="color: #888; font-size: 0.9em; margin-bottom: 1rem; margin-top: -0.5rem;">
+                        ${(() => {
+                    const flags = { "Monza": "🇮🇹", "Baku": "🇦🇿", "Singapore": "🇸🇬", "Austin": "🇺🇸", "Mexico City": "🇲🇽", "São Paulo": "🇧🇷", "Las Vegas": "🇺🇸", "Qatar": "🇶🇦", "Abu Dhabi": "🇦🇪" };
+                    let key = "";
+                    if (race.raceName.includes("Italian")) key = "Monza";
+                    else if (race.raceName.includes("Azerbaijan")) key = "Baku";
+                    else if (race.raceName.includes("Singapore")) key = "Singapore";
+                    else if (race.raceName.includes("United States")) key = "Austin";
+                    else if (race.raceName.includes("Mexico")) key = "Mexico City";
+                    else if (race.raceName.includes("São Paulo")) key = "São Paulo";
+                    else if (race.raceName.includes("Las Vegas")) key = "Las Vegas";
+                    else if (race.raceName.includes("Qatar")) key = "Qatar";
+                    else if (race.raceName.includes("Abu Dhabi")) key = "Abu Dhabi";
+                    return `${key ? flags[key] : ''} ${race.circuit}`;
+                })()}
+                    </div>
+                    <div style="position: relative; height: 300px; width: 100%;">
+                        <canvas id="trackMap"></canvas>
+                    </div>
+                    <!-- Sector Times -->
+                    <div id="sector-times" style="margin-top: 1rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; font-family: monospace; font-size: 0.9em;">
+                        <div style="background: rgba(0, 90, 255, 0.1); padding: 0.5rem; border-radius: 4px; border-left: 3px solid #005aff;">
+                            <div style="color:#fff; font-weight:bold; font-size:0.8em;">Sector 1</div>
+                            <div id="s1-time" style="color:#fff; font-weight:bold; font-size:1.1em;">-</div>
+                        </div>
+                        <div style="background: rgba(0, 90, 255, 0.1); padding: 0.5rem; border-radius: 4px; border-left: 3px solid #005aff;">
+                            <div style="color:#fff; font-weight:bold; font-size:0.8em;">Sector 2</div>
+                            <div id="s2-time" style="color:#fff; font-weight:bold; font-size:1.1em;">-</div>
+                        </div>
+                        <div style="background: rgba(0, 90, 255, 0.1); padding: 0.5rem; border-radius: 4px; border-left: 3px solid #005aff;">
+                            <div style="color:#fff; font-weight:bold; font-size:0.8em;">Sector 3</div>
+                            <div id="s3-time" style="color:#fff; font-weight:bold; font-size:1.1em;">-</div>
+                        </div>
+                    </div>
                 </div>
-                
-                <div class="card-panel">
+            ` : ''}
+
+            <!-- Session Results & Comparison -->
+            <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 1.5rem;">
+                <div class="card-panel" style="flex: 1 1 300px;">
                     <h3>Comparison vs ${teammateName}</h3>
                     <div style="display: flex; flex-direction: column; gap: 1.5rem; margin-top: 1rem;">
                         <div>
@@ -815,76 +835,47 @@ export default async function initColapinto() {
                         ` : `<p style="color:#666; font-style:italic;">${teammateName} DNF/DNS in Race</p>`}
                     </div>
                 </div>
+
+                <div class="card-panel" style="flex: 1 1 300px;">
+                    <h3>Session Results</h3>
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                        ${Object.entries(race.sessions).map(([key, session]) => {
+                    if (key === 'race') return ''; // Skip race, shown in header
+                    const label = key.toUpperCase();
+                    return `
+                                <tr style="border-bottom: 1px solid #333;">
+                                    <td style="padding: 0.8rem 0; color: #888;">${label}</td>
+                                    <td style="padding: 0.8rem 0; text-align: right; font-weight: bold;">P${session.pos}</td>
+                                    <td style="padding: 0.8rem 0; text-align: right; font-family: monospace;">${session.time || '-'}</td>
+                                </tr>
+                            `;
+                }).join('')}
+                        <tr style="border-bottom: 1px solid #333;">
+                            <td style="padding: 0.8rem 0; color: #888;">RACE</td>
+                            <td style="padding: 0.8rem 0; text-align: right; font-weight: bold;">${race.sessions.race.status === 'DNF' ? 'DNF' : 'P' + race.sessions.race.pos}</td>
+                            <td style="padding: 0.8rem 0; text-align: right; font-family: monospace;">${race.sessions.race.time || '-'}</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
 
             ${race.hasTelemetry ? `
                 <div id="telemetry-container">
                     <h2 style="margin-bottom: 1.5rem;">Telemetry Analysis (Fastest Lap)</h2>
                     
-                    <!-- Top Row: Speed (Left) + Map (Right) -->
-                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
-                        <div class="card-panel">
-                            <h3>Speed Trace</h3>
-                            <canvas id="speedChart"></canvas>
-                        </div>
-                        <div class="card-panel">
-                            <h3>Circuit Map</h3>
-                            <div style="color: #888; font-size: 0.9em; margin-bottom: 1rem; margin-top: -0.5rem;">
-                                ${(() => {
-                    const flags = {
-                        "Monza": "🇮🇹",
-                        "Baku": "🇦🇿",
-                        "Singapore": "🇸🇬",
-                        "Austin": "🇺🇸",
-                        "Mexico City": "🇲🇽",
-                        "São Paulo": "🇧🇷",
-                        "Las Vegas": "🇺🇸",
-                        "Qatar": "🇶🇦",
-                        "Abu Dhabi": "🇦🇪"
-                    };
-                    // Extract key from raceName or circuit to match keys
-                    let key = "";
-                    if (race.raceName.includes("Italian")) key = "Monza";
-                    else if (race.raceName.includes("Azerbaijan")) key = "Baku";
-                    else if (race.raceName.includes("Singapore")) key = "Singapore";
-                    else if (race.raceName.includes("United States")) key = "Austin";
-                    else if (race.raceName.includes("Mexico")) key = "Mexico City";
-                    else if (race.raceName.includes("São Paulo")) key = "São Paulo";
-                    else if (race.raceName.includes("Las Vegas")) key = "Las Vegas";
-                    else if (race.raceName.includes("Qatar")) key = "Qatar";
-                    else if (race.raceName.includes("Abu Dhabi")) key = "Abu Dhabi";
-
-                    return `${key ? flags[key] : ''} ${race.circuit}`;
-                })()}
-                            </div>
-                            <div style="position: relative; height: 300px; width: 100%;">
-                                <canvas id="trackMap"></canvas>
-                            </div>
-                            <!-- Sector Times -->
-                            <div id="sector-times" style="margin-top: 1rem; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; font-family: monospace; font-size: 0.9em;">
-                                <div style="background: rgba(0, 90, 255, 0.1); padding: 0.5rem; border-radius: 4px; border-left: 3px solid #005aff;">
-                                    <div style="color:#fff; font-weight:bold; font-size:0.8em;">Sector 1</div>
-                                    <div id="s1-time" style="color:#fff; font-weight:bold; font-size:1.1em;">-</div>
-                                </div>
-                                <div style="background: rgba(0, 90, 255, 0.1); padding: 0.5rem; border-radius: 4px; border-left: 3px solid #005aff;">
-                                    <div style="color:#fff; font-weight:bold; font-size:0.8em;">Sector 2</div>
-                                    <div id="s2-time" style="color:#fff; font-weight:bold; font-size:1.1em;">-</div>
-                                </div>
-                                <div style="background: rgba(0, 90, 255, 0.1); padding: 0.5rem; border-radius: 4px; border-left: 3px solid #005aff;">
-                                    <div style="color:#fff; font-weight:bold; font-size:0.8em;">Sector 3</div>
-                                    <div id="s3-time" style="color:#fff; font-weight:bold; font-size:1.1em;">-</div>
-                                </div>
-                            </div>
-                        </div>
+                    <!-- Speed Chart (Full Width) -->
+                    <div class="card-panel" style="margin-bottom: 1.5rem;">
+                        <h3>Speed Trace</h3>
+                        <canvas id="speedChart"></canvas>
                     </div>
 
-                    <!-- Bottom Row: Pedals + Gear/RPM -->
-                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem;">
-                        <div class="card-panel">
+                    <!-- Bottom Row: Pedals + Gear/RPM (Stack on Mobile) -->
+                    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem;">
+                        <div class="card-panel" style="flex: 1 1 300px;">
                             <h3>Throttle & Brake</h3>
                             <canvas id="pedalsChart"></canvas>
                         </div>
-                        <div class="card-panel" style="display:grid; grid-template-rows: 1fr 1fr; gap:1rem;">
+                        <div class="card-panel" style="flex: 1 1 300px; display:grid; grid-template-rows: 1fr 1fr; gap:1rem;">
                             <div style="position: relative;">
                                 <h4 style="margin:0 0 0.5rem 0; font-size:0.9em; color:#888;">Gear</h4>
                                 <canvas id="gearChart" style="max-height: 150px;"></canvas>
