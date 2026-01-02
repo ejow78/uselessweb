@@ -942,200 +942,201 @@ export default async function initColapinto() {
                 document.getElementById('s1-time').innerText = formatSector(data.sector1);
                 document.getElementById('s2-time').innerText = formatSector(data.sector2);
                 document.getElementById('s3-time').innerText = formatSector(data.sector3);
+            }
 
-                // Calculate Sector Split Distances
-                const parseTime = (timeStr) => {
-                    // unexpected format safety check
-                    if (!timeStr || typeof timeStr !== 'string') return 0;
-                    // Extract "HH:MM:SS.micros" part
-                    const parts = timeStr.split(' ');
-                    const timePart = parts[parts.length - 1]; // "00:00:26.613000"
-                    const [h, m, s] = timePart.split(':');
-                    return (parseInt(h) * 3600) + (parseInt(m) * 60) + parseFloat(s);
-                };
+            // Calculate Sector Split Distances
+            const parseTime = (timeStr) => {
+                // unexpected format safety check
+                if (!timeStr || typeof timeStr !== 'string') return 0;
+                // Extract "HH:MM:SS.micros" part
+                const parts = timeStr.split(' ');
+                const timePart = parts[parts.length - 1]; // "00:00:26.613000"
+                const [h, m, s] = timePart.split(':');
+                return (parseInt(h) * 3600) + (parseInt(m) * 60) + parseFloat(s);
+            };
 
-                const s1Time = parseTime(data.sector1);
-                const s2Time = s1Time + parseTime(data.sector2);
+            const s1Time = parseTime(data.sector1);
+            const s2Time = s1Time + parseTime(data.sector2);
 
-                // Find distances for these times
-                const findDistAtTime = (targetTime) => {
-                    // Simple linear search or finding closest
-                    let closestIdx = 0;
-                    let minDiff = Infinity;
-                    for (let i = 0; i < time.length; i++) {
-                        const diff = Math.abs(time[i] - targetTime);
-                        if (diff < minDiff) {
-                            minDiff = diff;
-                            closestIdx = i;
-                        }
+            // Find distances for these times
+            const findDistAtTime = (targetTime) => {
+                // Simple linear search or finding closest
+                let closestIdx = 0;
+                let minDiff = Infinity;
+                for (let i = 0; i < time.length; i++) {
+                    const diff = Math.abs(time[i] - targetTime);
+                    if (diff < minDiff) {
+                        minDiff = diff;
+                        closestIdx = i;
                     }
-                    return distance[closestIdx];
-                };
-
-                const s1Dist = findDistAtTime(s1Time);
-                const s2Dist = findDistAtTime(s2Time);
-
-                // Custom Plugin for Sector Lines
-                const sectorLinePlugin = {
-                    id: 'sectorLines',
-                    afterDatasetsDraw(chart) {
-                        const { ctx, chartArea: { top, bottom }, scales: { x } } = chart;
-
-                        const drawLine = (value, label) => {
-                            const xPos = x.getPixelForValue(value);
-                            if (xPos >= x.left && xPos <= x.right) {
-                                ctx.save();
-                                ctx.beginPath();
-                                ctx.lineWidth = 2;
-                                ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)'; // Distinct vertical line
-                                ctx.setLineDash([5, 5]);
-                                ctx.moveTo(xPos, top);
-                                ctx.lineTo(xPos, bottom);
-                                ctx.stroke();
-
-                                // Label
-                                ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
-                                ctx.textAlign = 'left';
-                                ctx.fillText(label, xPos + 5, top + 10);
-                                ctx.restore();
-                            }
-                        };
-
-                        if (s1Dist) drawLine(s1Dist, 'S1');
-                        if (s2Dist) drawLine(s2Dist, 'S2');
-                    }
-                };
-
-
-                // Helper to create chart
-                const createChart = (id, label, dataPoints, color, type = 'line', yAxisLabel = '') => {
-                    const ctx = document.getElementById(id).getContext('2d');
-                    return new Chart(ctx, {
-                        type: type,
-                        data: {
-                            labels: distance,
-                            datasets: [{
-                                label: label,
-                                data: dataPoints,
-                                borderColor: color,
-                                backgroundColor: color.replace('1)', '0.1)').replace('rgb', 'rgba'),
-                                borderWidth: 1.5,
-                                pointRadius: 0,
-                                fill: type === 'line'
-                            }]
-                        },
-                        plugins: [sectorLinePlugin], // Add the plugin here
-                        options: {
-                            responsive: true,
-                            animation: { duration: 500 },
-                            interaction: { mode: 'index', intersect: false },
-                            plugins: {
-                                legend: { display: true, labels: { color: '#fff' } },
-                                tooltip: {
-                                    callbacks: {
-                                        title: (context) => {
-                                            return `Distance: ${context[0].label}m`; // Clarify the top number
-                                        }
-                                    }
-                                }
-                            },
-                            scales: {
-                                x: {
-                                    type: 'linear',
-                                    display: true,
-                                    title: { display: true, text: 'Distance (m)', color: '#999', font: { size: 12 } },
-                                    ticks: { color: '#666' }
-                                },
-                                y: { display: true, title: { display: !!yAxisLabel, text: yAxisLabel, color: '#999' }, ticks: { color: '#666' } }
-                            }
-                        }
-                    });
-                };
-
-                // Track Map (Scatter Plot)
-                if (xCoords && yCoords) {
-                    const ctxMap = document.getElementById('trackMap').getContext('2d');
-                    const trackData = xCoords.map((x, i) => ({ x: x, y: yCoords[i] }));
-
-                    new Chart(ctxMap, {
-                        type: 'scatter',
-                        data: {
-                            datasets: [{
-                                label: 'Track Layout',
-                                data: trackData,
-                                borderColor: '#005aff',
-                                backgroundColor: '#005aff',
-                                pointRadius: 2,
-                                showLine: true,
-                                borderWidth: 2
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: { legend: { display: false }, tooltip: { enabled: false } },
-                            scales: {
-                                x: { display: false },
-                                y: { display: false }
-                            },
-                            elements: {
-                                point: { radius: 0 }
-                            }
-                        }
-                    });
                 }
+                return distance[closestIdx];
+            };
 
-                // Speed Chart
-                createChart('speedChart', 'Speed (km/h)', telemetry.Speed, 'rgb(0, 255, 127)', 'line', 'Speed');
+            const s1Dist = findDistAtTime(s1Time);
+            const s2Dist = findDistAtTime(s2Time);
 
-                // Throttle & Brake (Mixed)
-                const ctxPedals = document.getElementById('pedalsChart').getContext('2d');
-                new Chart(ctxPedals, {
-                    type: 'line',
+            // Custom Plugin for Sector Lines
+            const sectorLinePlugin = {
+                id: 'sectorLines',
+                afterDatasetsDraw(chart) {
+                    const { ctx, chartArea: { top, bottom }, scales: { x } } = chart;
+
+                    const drawLine = (value, label) => {
+                        const xPos = x.getPixelForValue(value);
+                        if (xPos >= x.left && xPos <= x.right) {
+                            ctx.save();
+                            ctx.beginPath();
+                            ctx.lineWidth = 2;
+                            ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)'; // Distinct vertical line
+                            ctx.setLineDash([5, 5]);
+                            ctx.moveTo(xPos, top);
+                            ctx.lineTo(xPos, bottom);
+                            ctx.stroke();
+
+                            // Label
+                            ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+                            ctx.textAlign = 'left';
+                            ctx.fillText(label, xPos + 5, top + 10);
+                            ctx.restore();
+                        }
+                    };
+
+                    if (s1Dist) drawLine(s1Dist, 'S1');
+                    if (s2Dist) drawLine(s2Dist, 'S2');
+                }
+            };
+
+
+            // Helper to create chart
+            const createChart = (id, label, dataPoints, color, type = 'line', yAxisLabel = '') => {
+                const ctx = document.getElementById(id).getContext('2d');
+                return new Chart(ctx, {
+                    type: type,
                     data: {
                         labels: distance,
-                        datasets: [
-                            {
-                                label: 'Throttle (%)',
-                                data: telemetry.Throttle,
-                                borderColor: 'rgb(0, 255, 127)',
-                                borderWidth: 1,
-                                pointRadius: 0,
-                                yAxisID: 'y'
-                            },
-                            {
-                                label: 'Brake (On/Off)',
-                                data: telemetry.Brake.map(b => b ? 100 : 0),
-                                borderColor: 'rgb(255, 50, 50)',
-                                backgroundColor: 'rgba(255, 50, 50, 0.2)',
-                                borderWidth: 1,
-                                pointRadius: 0,
-                                fill: true,
-                                yAxisID: 'y'
-                            }
-                        ]
+                        datasets: [{
+                            label: label,
+                            data: dataPoints,
+                            borderColor: color,
+                            backgroundColor: color.replace('1)', '0.1)').replace('rgb', 'rgba'),
+                            borderWidth: 1.5,
+                            pointRadius: 0,
+                            fill: type === 'line'
+                        }]
                     },
+                    plugins: [sectorLinePlugin], // Add the plugin here
                     options: {
                         responsive: true,
                         animation: { duration: 500 },
                         interaction: { mode: 'index', intersect: false },
-                        plugins: { legend: { labels: { color: '#fff' } } },
+                        plugins: {
+                            legend: { display: true, labels: { color: '#fff' } },
+                            tooltip: {
+                                callbacks: {
+                                    title: (context) => {
+                                        return `Distance: ${context[0].label}m`; // Clarify the top number
+                                    }
+                                }
+                            }
+                        },
                         scales: {
-                            x: { type: 'linear', display: true, ticks: { color: '#666' } },
-                            y: { min: 0, max: 105, ticks: { color: '#666' } }
+                            x: {
+                                type: 'linear',
+                                display: true,
+                                title: { display: true, text: 'Distance (m)', color: '#999', font: { size: 12 } },
+                                ticks: { color: '#666' }
+                            },
+                            y: { display: true, title: { display: !!yAxisLabel, text: yAxisLabel, color: '#999' }, ticks: { color: '#666' } }
                         }
                     }
                 });
+            };
 
-                // Gear Chart
-                createChart('gearChart', 'Gear', telemetry.nGear, 'rgb(255, 200, 0)', 'line');
+            // Track Map (Scatter Plot)
+            if (xCoords && yCoords) {
+                const ctxMap = document.getElementById('trackMap').getContext('2d');
+                const trackData = xCoords.map((x, i) => ({ x: x, y: yCoords[i] }));
 
-                // RPM Chart
-                createChart('rpmChart', 'RPM', telemetry.RPM, 'rgb(0, 150, 255)', 'line');
-
-            } catch (error) {
-                console.error("Error loading telemetry:", error);
-                document.getElementById('telemetry-container').innerHTML += `<p style="color:red">Error loading telemetry data.</p>`;
+                new Chart(ctxMap, {
+                    type: 'scatter',
+                    data: {
+                        datasets: [{
+                            label: 'Track Layout',
+                            data: trackData,
+                            borderColor: '#005aff',
+                            backgroundColor: '#005aff',
+                            pointRadius: 2,
+                            showLine: true,
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                        scales: {
+                            x: { display: false },
+                            y: { display: false }
+                        },
+                        elements: {
+                            point: { radius: 0 }
+                        }
+                    }
+                });
             }
+
+            // Speed Chart
+            createChart('speedChart', 'Speed (km/h)', telemetry.Speed, 'rgb(0, 255, 127)', 'line', 'Speed');
+
+            // Throttle & Brake (Mixed)
+            const ctxPedals = document.getElementById('pedalsChart').getContext('2d');
+            new Chart(ctxPedals, {
+                type: 'line',
+                data: {
+                    labels: distance,
+                    datasets: [
+                        {
+                            label: 'Throttle (%)',
+                            data: telemetry.Throttle,
+                            borderColor: 'rgb(0, 255, 127)',
+                            borderWidth: 1,
+                            pointRadius: 0,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'Brake (On/Off)',
+                            data: telemetry.Brake.map(b => b ? 100 : 0),
+                            borderColor: 'rgb(255, 50, 50)',
+                            backgroundColor: 'rgba(255, 50, 50, 0.2)',
+                            borderWidth: 1,
+                            pointRadius: 0,
+                            fill: true,
+                            yAxisID: 'y'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    animation: { duration: 500 },
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: { legend: { labels: { color: '#fff' } } },
+                    scales: {
+                        x: { type: 'linear', display: true, ticks: { color: '#666' } },
+                        y: { min: 0, max: 105, ticks: { color: '#666' } }
+                    }
+                }
+            });
+
+            // Gear Chart
+            createChart('gearChart', 'Gear', telemetry.nGear, 'rgb(255, 200, 0)', 'line');
+
+            // RPM Chart
+            createChart('rpmChart', 'RPM', telemetry.RPM, 'rgb(0, 150, 255)', 'line');
+
+        } catch (error) {
+            console.error("Error loading telemetry:", error);
+            document.getElementById('telemetry-container').innerHTML += `<p style="color:red">Error loading telemetry data.</p>`;
         }
+    }
 }
