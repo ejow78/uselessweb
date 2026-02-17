@@ -22,36 +22,16 @@ const projects = [
     link: './projects/signal-processing/signal-processing.html'
   },
   {
-    title: 'Network Topologies',
-    description: 'Visualizing Physical and Logical network layouts.',
+    title: 'Network Structure',
+    description: 'Visualizing Physical/Logical layouts, OSI Model, and Protocols.',
     link: './projects/network-topologies/network-topologies.html'
   },
-  {
-    title: 'F1 Data Analysis',
-    description: 'Historical analysis of F1 rivalries (2021) and future prospects.',
-    link: './projects/data-analysis/f1-rivalry/f1-data-analysis.html'
-  }
 ];
 
 const projectsContainer = document.querySelector('#projects');
-const featureContainer = document.querySelector('#ascii-feature');
-
-function animateFeature() {
-  if (!featureContainer) return;
-
-  const frames = ['◰', '◳', '◲', '◱'];
-  let i = 0;
-
-  setInterval(() => {
-    featureContainer.innerText = frames[i];
-    i = (i + 1) % frames.length;
-  }, 200);
-}
 
 function renderProjects() {
   if (!projectsContainer) return;
-
-
 
   projectsContainer.innerHTML = projects.map(project => `
     <a href="${project.link}" class="project-card" style="text-decoration: none; color: inherit; display: block;">
@@ -62,4 +42,3 @@ function renderProjects() {
 }
 
 renderProjects();
-animateFeature();

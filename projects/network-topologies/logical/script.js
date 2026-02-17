@@ -3,10 +3,59 @@ const btns = document.querySelectorAll('.topo-btn');
 const actionBtn = document.getElementById('action-btn');
 const title = document.getElementById('topo-title');
 const desc = document.getElementById('topo-desc');
+const theoryContainer = document.getElementById('topo-theory');
 
 let currentType = 'token';
 let isRunning = false;
 let animationId;
+
+// Centralized Data & Theory
+const content = {
+    token: {
+        title: "Token Passing Logic (Ring)",
+        desc: "A special 'token' frame travels around the network. Only the node holding the token is allowed to transmit data. This mechanism prevents data collisions entirely.",
+        btnText: "Start Token Simulation",
+        theory: `
+            <h2>Understanding Token Passing</h2>
+            <p><strong>Token Ring</strong> (standardized as IEEE 802.5) uses a deterministic access method. Unlike Ethernet, where devices compete for the medium, Token Ring is polite and orderly.</p>
+            
+            <h3>How it Works</h3>
+            <p>A 3-byte frame called a <strong>Token</strong> circles the network logically. 
+            <br>1. If a node wants to send data, it waits for the token.
+            <br>2. It seizes the token, flips a bit to make it a "Start of Frame" sequence, and appends its data.
+            <br>3. The data travels around the ring. Each node checks if the data is for them.
+            <br>4. The destination node copies the data and marks the frame as "received".
+            <br>5. When the frame returns to the sender, the sender verifies reception and releases a new free token.</p>
+
+            <h3>Pros & Cons</h3>
+            <ul>
+                <li><strong>Pro:</strong> No collisions, predictable performance under heavy load.</li>
+                <li><strong>Con:</strong> If a node fails or the cable breaks, the token stops (unless a dual ring is used). Slower max throughput compared to modern switched Ethernet.</li>
+            </ul>
+        `
+    },
+    broadcast: {
+        title: "Broadcast / CSMA/CD Logic",
+        desc: "In shared media (like Hubs or Bus), data is 'broadcast' to everyone. Nodes must listen before talking (Carrier Sense) and detect if they interrupted someone (Collision Detection).",
+        btnText: "Send Broadcast Packet",
+        theory: `
+            <h2>Understanding Broadcast Logic (Ethernet)</h2>
+            <p><strong>Ethernet</strong> (IEEE 802.3) originally used a shared medium (coaxial cable or hub). This logic is known as <strong>CSMA/CD</strong> (Carrier Sense Multiple Access with Collision Detection).</p>
+            
+            <h3>The Cocktail Party Analogy</h3>
+            <p>Imagine a cocktail party where everyone shares the air.
+            <br><strong>Carrier Sense (CS):</strong> You listen before you speak to make sure no one else is talking.
+            <br><strong>Multiple Access (MA):</strong> Everyone has equal potential to speak.
+            <br><strong>Collision Detection (CD):</strong> If two people start talking at the exact same time, they both stop, wait a random amount of time, and try again.</p>
+
+            <h3>Broadcast Domains</h3>
+            <p>A <strong>Broadcast Domain</strong> is a logical division of a network where all nodes can reach each other by broadcast. Hubs and Switches extend broadcast domains, while <strong>Routers</strong> break them.</p>
+
+            <h3>Modern Switched Ethernet</h3>
+            <p>Today, we use Switches instead of Hubs. Switches create a separate "collision domain" for each port, effectively eliminating collisions, but Broadcast packets (like ARP requests) are still sent to everyone.</p>
+        `
+    }
+};
 
 const nodes = [
     { id: 0, label: 'A', x: 400, y: 50 },
@@ -28,6 +77,13 @@ const hub = { id: 'hub', label: 'Switch', x: 400, y: 200 };
 
 function renderBase() {
     svg.innerHTML = '';
+
+    // Update Text Content
+    const data = content[currentType];
+    title.textContent = data.title;
+    desc.textContent = data.desc;
+    actionBtn.textContent = data.btnText;
+    if (theoryContainer) theoryContainer.innerHTML = data.theory;
 
     if (currentType === 'token') {
         // Draw Ring connections
@@ -199,16 +255,6 @@ btns.forEach(btn => {
         btns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         currentType = btn.dataset.type;
-
-        if (currentType === 'token') {
-            title.textContent = "Token Ring Logic";
-            desc.textContent = "A 'token' frame travels around the network. Only the node with the token can transmit data. This prevents collisions.";
-            actionBtn.textContent = "Start Token";
-        } else {
-            title.textContent = "Broadcast (Ethernet) Logic";
-            desc.textContent = "Data is sent to a central point (Switch/Hub) and then broadcasted to all other nodes (or specific ones). In a Hub, everyone receives it.";
-            actionBtn.textContent = "Send Broadcast";
-        }
         renderBase();
     });
 });

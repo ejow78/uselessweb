@@ -15,10 +15,7 @@ yarn-error.log
 .vscode/
 .idea/
 
-# Python
-venv/
-__pycache__/
-*.pyc
+
 
 # Project Specific
 cache/

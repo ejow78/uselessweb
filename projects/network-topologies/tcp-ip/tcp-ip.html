@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TCP/IP Stack & Encapsulation</title>
+    <link rel="icon" type="image/svg+xml" href="../../../img/logo2x2.svg" />
+    <link rel="stylesheet" href="../../../style.css">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="nav-left">
+                <a href="../../../index.html">Edgar's Lab</a>
+            </div>
+            <div class="nav-center">
+                <img src="../../../img/logo2x2.svg" alt="Logo" class="logo-img">
+            </div>
+            <div class="nav-links">
+                <a href="../../../projects.html">Projects</a>
+                <a href="../../../posts.html">Posts</a>
+                <a href="../../../resume.html">Resumé</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="visualization-container">
+            <h1>TCP/IP Stack</h1>
+            <p class="description">The practical model that powers the Internet. Visualizing Encapsulation and
+                Decapsulation.</p>
+
+            <div class="controls">
+                <button id="encap-btn" class="active">Encapsulate (Send)</button>
+                <button id="decap-btn">Decapsulate (Receive)</button>
+            </div>
+
+            <div class="tcp-wrapper">
+                <!-- Stack Visualization -->
+                <div class="stack-container">
+                    <div class="layer layer-4" data-layer="4">
+                        <span class="layer-num">4</span>
+                        <span class="layer-name">Application</span>
+                        <div class="pdu app-data">DATA</div>
+                    </div>
+                    <div class="layer layer-3" data-layer="3">
+                        <span class="layer-num">3</span>
+                        <span class="layer-name">Transport</span>
+                        <div class="pdu transport-segment hidden">
+                            <span class="header">TCP Header</span>
+                            <span class="payload">DATA</span>
+                        </div>
+                    </div>
+                    <div class="layer layer-2" data-layer="2">
+                        <span class="layer-num">2</span>
+                        <span class="layer-name">Internet</span>
+                        <div class="pdu internet-packet hidden">
+                            <span class="header">IP Header</span>
+                            <span class="payload">TCP + DATA</span>
+                        </div>
+                    </div>
+                    <div class="layer layer-1" data-layer="1">
+                        <span class="layer-num">1</span>
+                        <span class="layer-name">Network Access</span>
+                        <div class="pdu link-frame hidden">
+                            <span class="header">Frame Header</span>
+                            <span class="payload">IP + TCP + DATA</span>
+                            <span class="trailer">FCS</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Info Panel -->
+                <div class="info-panel">
+                    <h2 id="process-title">Encapsulation Process</h2>
+                    <p id="process-desc">As data moves down the stack, each layer adds its own header (and sometimes
+                        trailer) to the data from the layer above. This wraps the data like an envelope inside another
+                        envelope.</p>
+
+                    <div id="step-details">
+                        <!-- Dynamic details injected by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Expanded Theory Section -->
+            <div class="theory-container" style="margin-top: 4rem;">
+                <h2>Deep Dive: The TCP/IP Model</h2>
+                <p>The <strong>TCP/IP Model</strong> (also known as the Internet Protocol Suite) is a concise, 4-layer
+                    framework that describes how the Internet functions. Unlike the 7-layer OSI model which is
+                    theoretical, TCP/IP is practical.</p>
+
+                <h3>Layer Breakdown</h3>
+
+                <div class="theory-block">
+                    <h4>4. Application Layer</h4>
+                    <p><strong>Protocols:</strong> HTTP, DNS, FTP, SSH, SMTP.</p>
+                    <p>Creates the data payload (e.g., a requested HTML page or an email). It interfaces directly with
+                        software applications.</p>
+                </div>
+
+                <div class="theory-block">
+                    <h4>3. Transport Layer</h4>
+                    <p><strong>Protocols:</strong> TCP (Reliable), UDP (Fast).</p>
+                    <p>Responsible for end-to-end communication. It breaks large data into smaller chunks called
+                        <strong>Segments</strong>. It adds port numbers to identify which application sent/receives the
+                        data.</p>
+                </div>
+
+                <div class="theory-block">
+                    <h4>2. Internet Layer</h4>
+                    <p><strong>Protocols:</strong> IP (IPv4, IPv6), ICMP, ARP.</p>
+                    <p>Responsible for logical addressing and routing. It wraps the segment into a
+                        <strong>Packet</strong> mainly by adding Source and Destination IP addresses.</p>
+                </div>
+
+                <div class="theory-block">
+                    <h4>1. Network Access Layer (Link Layer)</h4>
+                    <p><strong>Protocols:</strong> Ethernet, Wi-Fi, MAC.</p>
+                    <p>Responsible for physical transmission. It wraps the packet into a <strong>Frame</strong> by
+                        adding MAC addresses and a Frame Check Sequence (FCS) for error checking.</p>
+                </div>
+
+                <h3>Encapsulation vs. Decapsulation</h3>
+                <ul>
+                    <li><strong>Encapsulation (Downstream):</strong> Happens when you SEND data. Data gets wrapped with
+                        headers at each step.</li>
+                    <li><strong>Decapsulation (Upstream):</strong> Happens when you RECEIVE data. Headers are stripped
+                        off layer by layer until raw data remains.</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>developed by Edgar.</p>
+    </footer>
+
+    <script type="module" src="./script.js"></script>
+</body>
+
+</html>

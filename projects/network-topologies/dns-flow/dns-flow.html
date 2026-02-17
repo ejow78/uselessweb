@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNS Flow Visualization</title>
+    <link rel="icon" type="image/svg+xml" href="../../../img/logo2x2.svg" />
+    <link rel="stylesheet" href="../../../style.css">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="nav-left">
+                <a href="../../../index.html">Edgar's Lab</a>
+            </div>
+            <div class="nav-center">
+                <img src="../../../img/logo2x2.svg" alt="Logo" class="logo-img">
+            </div>
+            <div class="nav-links">
+                <a href="../../../projects.html">Projects</a>
+                <a href="../../../posts.html">Posts</a>
+                <a href="../../../resume.html">Resumé</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="visualization-container">
+            <h1>DNS Flow</h1>
+            <p class="description">How does a domain name become an IP address? Follow the journey of a DNS Query.</p>
+
+            <div class="dns-wrapper">
+                <div class="network-map">
+                    <!-- Client -->
+                    <div class="node client" id="node-client">
+                        <div class="icon">💻</div>
+                        <div class="label">Client</div>
+                        <div class="ip">192.168.1.5</div>
+                    </div>
+
+                    <!-- Resolver (ISP) -->
+                    <div class="node resolver" id="node-resolver">
+                        <div class="icon">🔄</div>
+                        <div class="label">DNS Resolver</div>
+                        <div class="desc">ISP / 8.8.8.8</div>
+                    </div>
+
+                    <!-- Root Server -->
+                    <div class="node root" id="node-root">
+                        <div class="icon">🌳</div>
+                        <div class="label">Root Server</div>
+                        <div class="desc">"."</div>
+                    </div>
+
+                    <!-- TLD Server -->
+                    <div class="node tld" id="node-tld">
+                        <div class="icon">📑</div>
+                        <div class="label">TLD Server</div>
+                        <div class="desc">".com"</div>
+                    </div>
+
+                    <!-- Authoritative -->
+                    <div class="node auth" id="node-auth">
+                        <div class="icon">🏢</div>
+                        <div class="label">Authoritative</div>
+                        <div class="desc">"example.com"</div>
+                    </div>
+                </div>
+
+                <svg id="connection-layer" width="100%" height="100%"></svg>
+
+            </div>
+
+            <div class="controls">
+                <input type="text" id="domain-input" value="example.com" disabled>
+                <button id="query-btn">Resolve Domain</button>
+                <div id="status-msg">Ready to query.</div>
+            </div>
+
+            <div class="theory-container" style="margin-top: 4rem;">
+                <h2>Understanding DNS (Domain Name System)</h2>
+                <p><strong>DNS</strong> is the "phonebook" of the Internet. Humans access information online through
+                    domain names (like <code>google.com</code>), but web browsers interact through Internet Protocol
+                    (IP) addresses (like <code>142.250.190.46</code>).</p>
+
+                <h3>The Hierarchy of DNS</h3>
+                <div class="theory-block">
+                    <h4>1. DNS Resolver (Recursive Resolver)</h4>
+                    <p>Usually provided by your ISP. It acts as the middleman between your computer and the DNS
+                        infrastructure. It caches results to speed up future queries.</p>
+                </div>
+
+                <div class="theory-block">
+                    <h4>2. Root Nameservers (.)</h4>
+                    <p>There are 13 logical root server sets worldwide. They don't know the IP of the website, but they
+                        know where to find the TLD servers for <code>.com</code>, <code>.net</code>, etc.</p>
+                </div>
+
+                <div class="theory-block">
+                    <h4>3. TLD Nameservers (Top Level Domain)</h4>
+                    <p>These servers manage extensions like <code>.com</code>. They point the resolver to the specific
+                        authoritative server for the requested domain.</p>
+                </div>
+
+                <div class="theory-block">
+                    <h4>4. Authoritative Nameservers</h4>
+                    <p>The final stop. These servers act as the definitive source of truth for the domain and return the
+                        actual IP address (A Record).</p>
+                </div>
+
+                <h3>Types of DNS Queries</h3>
+                <ul>
+                    <li><strong>Recursive Query:</strong> "I need the answer, go find it for me." (Client -> Resolver)
+                    </li>
+                    <li><strong>Iterative Query:</strong> "I don't know, but here is who to ask next." (Resolver ->
+                        Root/TLD)</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>developed by Edgar.</p>
+    </footer>
+
+    <script type="module" src="./script.js"></script>
+</body>
+
+</html>

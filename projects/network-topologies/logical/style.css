@@ -136,3 +136,43 @@ line {
     color: #a1a1aa;
     line-height: 1.6;
 }
+
+.theory-container {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+    margin-top: 2rem;
+}
+
+.theory-container h2 {
+    color: white;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.theory-container h3 {
+    color: var(--primary-color);
+    margin: 1.5rem 0 0.5rem 0;
+    font-size: 1.3rem;
+}
+
+.theory-container p {
+    color: #a1a1aa;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+}
+
+.theory-container ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    color: #a1a1aa;
+    margin-bottom: 1rem;
+}
+
+.theory-container li {
+    margin-bottom: 0.5rem;
+}

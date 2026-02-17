@@ -95,28 +95,38 @@ main {
   margin: 0 auto;
   padding-left: 2rem;
   padding-right: 2rem;
+  display: flex;
+  flex-direction: column;
 }
 
 #hero {
-  padding: 4rem 0;
+  flex: 1;
+  /* Fill remaining space in main */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
+  padding: 2rem 0;
+  position: relative;
+}
+
+.hero-content {
+  z-index: 10;
+  margin-bottom: 2rem;
 }
 
 #hero h1 {
-  font-size: 3rem;
+  font-size: 3.5rem;
   margin-bottom: 1rem;
-  letter-spacing: -1px;
+  letter-spacing: -2px;
+  background: linear-gradient(to right, #fff, #a1a1aa);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-#ascii-feature {
-  font-family: 'Fira Code', monospace;
-  font-size: 8rem;
-  color: #ffffff;
-  text-align: center;
-  margin: 1rem 0 2rem;
-  min-height: 2.5rem;
-  user-select: none;
-}
+
 
 #projects {
   display: grid;
@@ -404,150 +414,289 @@ input:checked+.slider:before {
   }
 }
 
-/* Journal Styles */
-.journal-container {
-  max-width: 1000px;
+/* Posts Styles (Zen Mode - Polished) */
+.posts-container {
+  max-width: 720px;
+  /* Slightly wider for better breathing room */
   margin: 0 auto;
-  padding: 2rem;
+  padding: 4rem 1rem;
 }
 
-.journal-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+.posts-grid {
+  display: flex;
+  flex-direction: column;
   gap: 2rem;
 }
 
-.journal-card {
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 1.5rem;
+.post-card {
+  background: #121212;
+  /* Solid dark background */
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 2rem;
   cursor: pointer;
-  transition: transform 0.2s, border-color 0.2s;
+  transition: all 0.2s ease;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  position: relative;
+  overflow: visible;
 }
 
-.journal-card:hover {
-  transform: translateY(-5px);
-  border-color: var(--primary-color);
+.post-card:hover {
+  transform: translateY(-2px);
+  background: #18181b;
+  /* Slightly lighter solid on hover */
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
-.card-date {
-  font-family: 'Fira Code', monospace;
-  font-size: 0.8rem;
-  color: var(--primary-color);
+.post-header {
+  margin-bottom: 0.75rem;
+}
+
+.post-type-badge {
+  /* Kept hidden or could make very minimal dot? Let's keep hidden for simplicity requested */
+  display: none;
+}
+
+.post-card h3 {
   margin-bottom: 0.5rem;
-  display: block;
-}
-
-.journal-card h3 {
-  margin-bottom: 1rem;
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
 }
 
-.card-preview {
+.post-meta {
+  font-size: 0.85rem;
   color: #a1a1aa;
-  font-size: 0.95rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-family: 'Fira Code', monospace;
+  /* Tech feel for metadata */
+}
+
+.meta-separator {
+  color: #3f3f46;
+}
+
+.post-preview {
+  color: #d4d4d8;
+  font-size: 1rem;
   line-height: 1.6;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0;
   flex-grow: 1;
 }
 
-.read-more {
-  font-size: 0.9rem;
-  color: var(--primary-color);
-  font-weight: 500;
+.post-footer {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
   display: flex;
+  justify-content: space-between;
   align-items: center;
+}
+
+.post-tags {
+  display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
 }
 
-/* Modal Styles */
-.journal-modal {
+.post-tag {
+  font-size: 0.75rem;
+  color: #71717a;
+  background: transparent;
+  padding: 0;
+  border: none;
+  font-family: 'Fira Code', monospace;
+}
+
+.post-tag::before {
+  content: "#";
+  color: var(--primary-color);
+  opacity: 0.7;
+}
+
+/* Modal Updates (Zen Mode - Polished) */
+.post-modal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(5px);
+  background: #000000;
+  /* Solid black background */
   z-index: 1000;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   opacity: 1;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.2s ease;
+  overflow-y: auto;
 }
 
-.journal-modal.hidden {
+.post-modal.hidden {
   display: none;
   opacity: 0;
   pointer-events: none;
 }
 
 .modal-content {
-  background: #18181b;
-  border: 1px solid var(--border-color);
-  border-radius: 16px;
-  padding: 3rem;
-  max-width: 800px;
-  width: 90%;
-  max-height: 90vh;
-  overflow-y: auto;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 5rem 1rem;
+  max-width: 720px;
+  width: 100%;
+  margin: 0 auto;
   position: relative;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-  animation: modalSlideIn 0.3s ease;
+  max-height: none;
+  overflow: visible;
+  animation: fadeIn 0.3s ease;
 }
 
-@keyframes modalSlideIn {
+@keyframes fadeIn {
   from {
-    transform: translateY(20px);
     opacity: 0;
+    transform: translateY(10px);
   }
 
   to {
-    transform: translateY(0);
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
-.close-btn {
-  position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
-  font-size: 2rem;
-  color: #a1a1aa;
-  cursor: pointer;
-  line-height: 1;
-  transition: color 0.2s;
+.modal-header {
+  margin-bottom: 2.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 2rem;
+  margin-top: 0;
 }
 
-.close-btn:hover {
-  color: #fff;
+.modal-header h2 {
+  font-family: 'Inter', sans-serif;
+  font-size: 2.25rem;
+  margin-bottom: 1rem;
+  color: white;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
 }
 
-.modal-date {
+.modal-meta {
   font-family: 'Fira Code', monospace;
-  color: var(--primary-color);
-  margin-bottom: 0.5rem;
-  display: block;
-}
-
-#modal-title {
-  font-size: 2rem;
-  margin-bottom: 2rem;
-  color: #fff;
+  color: #a1a1aa;
+  font-size: 0.9rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
 }
 
 .modal-body {
-  color: #d4d4d8;
-  line-height: 1.8;
+  color: #e4e4e7;
   font-size: 1.1rem;
+  line-height: 1.8;
+  font-family: 'Inter', sans-serif;
+  white-space: pre-line;
+  /* Enable natural line breaks */
 }
 
 .modal-body p {
   margin-bottom: 1.5rem;
+}
+
+/* Post Table Styles */
+.post-table-container {
+  overflow-x: auto;
+  margin: 2rem 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+.post-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  color: #e4e4e7;
+}
+
+.post-table th,
+.post-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.post-table th {
+  background: rgba(255, 255, 255, 0.05);
+  font-weight: 600;
+  color: #fff;
+}
+
+.post-table tr:last-child td {
+  border-bottom: none;
+}
+
+.post-table tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.modal-footer {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: flex-start;
+}
+
+.close-btn {
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 1010;
+  transition: all 0.2s;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: rotate(90deg);
+}
+
+.btn-primary {
+  background: transparent;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-primary:hover {
+  background: #fff;
+  color: #000;
+  border-color: #fff;
 }

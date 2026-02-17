@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSI Model</title>
+    <link rel="icon" type="image/svg+xml" href="../../../img/logo2x2.svg" />
+    <link rel="stylesheet" href="../../../style.css">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="nav-left">
+                <a href="../../../index.html">Edgar's Lab</a>
+            </div>
+            <div class="nav-center">
+                <img src="../../../img/logo2x2.svg" alt="Logo" class="logo-img">
+            </div>
+            <div class="nav-links">
+                <a href="../../../projects.html">Projects</a>
+                <a href="../../../posts.html">Posts</a>
+                <a href="../../../resume.html">Resumé</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="visualization-container">
+            <h1>The OSI Model</h1>
+            <p class="description">Open Systems Interconnection model: A conceptual framework used to describe the
+                functions of a networking system.</p>
+
+            <div class="osi-wrapper">
+                <div class="osi-stack">
+                    <div class="layer layer-7" data-layer="7">
+                        <span class="layer-num">7</span>
+                        <span class="layer-name">Application</span>
+                    </div>
+                    <div class="layer layer-6" data-layer="6">
+                        <span class="layer-num">6</span>
+                        <span class="layer-name">Presentation</span>
+                    </div>
+                    <div class="layer layer-5" data-layer="5">
+                        <span class="layer-num">5</span>
+                        <span class="layer-name">Session</span>
+                    </div>
+                    <div class="layer layer-4" data-layer="4">
+                        <span class="layer-num">4</span>
+                        <span class="layer-name">Transport</span>
+                    </div>
+                    <div class="layer layer-3" data-layer="3">
+                        <span class="layer-num">3</span>
+                        <span class="layer-name">Network</span>
+                    </div>
+                    <div class="layer layer-2" data-layer="2">
+                        <span class="layer-num">2</span>
+                        <span class="layer-name">Data Link</span>
+                    </div>
+                    <div class="layer layer-1" data-layer="1">
+                        <span class="layer-num">1</span>
+                        <span class="layer-name">Physical</span>
+                    </div>
+                </div>
+
+                <div class="osi-info">
+                    <div class="info-card">
+                        <h2 id="layer-title">Select a Layer</h2>
+                        <p id="layer-desc">Hover over or click a layer to see how data moves through the network stack.
+                        </p>
+
+                        <div id="layer-details" class="hidden">
+                            <div class="detail-item">
+                                <span class="label">PDU (Unit):</span>
+                                <span class="value" id="pdu-val"></span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="label">Protocols:</span>
+                                <span class="value" id="proto-val"></span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="label">Function:</span>
+                                <span class="value" id="func-val"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="theory-container">
+                <h2>Why the OSI Model Matters</h2>
+                <p>The OSI model splits network communication into seven layers. This modularity allows different
+                    technologies to interoperate.</p>
+                <ul>
+                    <li><strong>Troubleshooting:</strong> Helps isolate problems (e.g., "Is it a physical cable issue or
+                        a software config issue?").</li>
+                    <li><strong>Standardization:</strong> Allows equipment from different vendors to talk to each other.
+                    </li>
+                    <li><strong>Learning:</strong> It's the standard way networking is taught, even though the TCP/IP
+                        model is what the Internet actually runs on.</li>
+                </ul>
+
+                <h3>Mnemonics</h3>
+                <p>To remember the layers (Physical to Application):<br>
+                    <strong style="color: white;">P</strong>lease <strong style="color: white;">D</strong>o <strong
+                        style="color: white;">N</strong>ot <strong style="color: white;">T</strong>hrow <strong
+                        style="color: white;">S</strong>ausage <strong style="color: white;">P</strong>izza <strong
+                        style="color: white;">A</strong>way
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>developed by Edgar.</p>
+    </footer>
+
+    <script type="module" src="./script.js"></script>
+</body>
+
+</html>

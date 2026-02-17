@@ -7,7 +7,7 @@ export default defineConfig({
             input: {
                 main: resolve(__dirname, 'index.html'),
                 projects: resolve(__dirname, 'projects.html'),
-                journal: resolve(__dirname, 'journal.html'),
+                posts: resolve(__dirname, 'posts.html'),
                 resume: resolve(__dirname, 'resume.html'),
                 // Sorting Algorithms
                 algorithms: resolve(__dirname, 'projects/sorting-algorithms/algorithms.html'),
@@ -41,8 +41,11 @@ export default defineConfig({
                 networkTopologies: resolve(__dirname, 'projects/network-topologies/network-topologies.html'),
                 physical: resolve(__dirname, 'projects/network-topologies/physical/physical.html'),
                 logical: resolve(__dirname, 'projects/network-topologies/logical/logical.html'),
+                osiModel: resolve(__dirname, 'projects/network-topologies/osi-model/osi-model.html'),
+                tcpIp: resolve(__dirname, 'projects/network-topologies/tcp-ip/tcp-ip.html'),
+                dnsFlow: resolve(__dirname, 'projects/network-topologies/dns-flow/dns-flow.html'),
                 // Data Analysis
-                f1Rivalry: resolve(__dirname, 'projects/data-analysis/f1-rivalry/f1-data-analysis.html'),
+
             },
         },
     },

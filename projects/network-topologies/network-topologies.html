@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="../../img/logo2x2.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Network Topologies</title>
+    <title>Network Structure</title>
     <link rel="stylesheet" href="../../style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,24 +16,24 @@
     <header>
         <nav>
             <div class="nav-left">
-                <a href="../../index.html">Edgar's useless web</a>
+                <a href="../../index.html">Edgar's Lab</a>
             </div>
             <div class="nav-center">
                 <img src="../../img/logo2x2.svg" alt="Logo" class="logo-img">
             </div>
             <div class="nav-links">
                 <a href="../../projects.html">Projects</a>
-                <a href="../../journal.html">Journal</a>
+                <a href="../../posts.html">Posts</a>
                 <a href="../../resume.html">Resumé</a>
             </div>
         </nav>
     </header>
 
     <main id="app">
-        <section id="hero">
-            <h1>Network Topologies</h1>
-            <p>Visualizing how networks are arranged physically and logically.</p>
-        </section>
+        <div class="page-header" style="padding: 2rem 0; text-align: center;">
+            <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">Network Structure</h1>
+            <p>Visualizing Physical/Logical layouts, OSI Model, and Protocols.</p>
+        </div>
 
         <section id="projects">
             <a href="./physical/physical.html" class="project-card"
@@ -47,6 +47,24 @@
                 <h3>Logical Topologies</h3>
                 <p>Visualizing how data flows through the network (Token Ring, Broadcast).</p>
                 <span class="date">2024-07-28</span>
+            </a>
+            <a href="./osi-model/osi-model.html" class="project-card"
+                style="text-decoration: none; color: inherit; display: block;">
+                <h3>OSI Model</h3>
+                <p>Interactive 7-layer model explorer (Application to Physical).</p>
+                <span class="date">2026-02-17</span>
+            </a>
+            <a href="./tcp-ip/tcp-ip.html" class="project-card"
+                style="text-decoration: none; color: inherit; display: block;">
+                <h3>TCP/IP Stack</h3>
+                <p>Encapsulation visualizer & practical internet model theory.</p>
+                <span class="date">2026-02-17</span>
+            </a>
+            <a href="./dns-flow/dns-flow.html" class="project-card"
+                style="text-decoration: none; color: inherit; display: block;">
+                <h3>DNS Flow</h3>
+                <p>Follow the journey of a DNS Query (Client -> Root -> TLD -> Auth).</p>
+                <span class="date">2026-02-17</span>
             </a>
         </section>
     </main>
